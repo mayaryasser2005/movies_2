@@ -4,7 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:movies_2/utils/constant.dart';
 
 class PopularSlider extends StatelessWidget {
-  PopularSlider({super.key, required this.snapshot});
+  const PopularSlider({super.key, required this.snapshot});
   final AsyncSnapshot snapshot;
   @override
   Widget build(BuildContext context) {
@@ -21,8 +21,7 @@ class PopularSlider extends StatelessWidget {
               viewportFraction: 0.55,
               enlargeCenterPage: true,
               autoPlayCurve: Curves.fastLinearToSlowEaseIn,
-              autoPlayAnimationDuration: Duration(seconds: 1),
-
+              autoPlayAnimationDuration: const Duration(seconds: 1),
             ),
             itemBuilder: (context,index,pageViewIndex){
               return ClipRRect(

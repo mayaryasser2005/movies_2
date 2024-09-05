@@ -1,5 +1,4 @@
 import 'package:flutter/cupertino.dart';
-import 'package:movies_2/screens/tabs/Home.dart';
 
 import '../screens/home.dart';
 import '../utils/app_assets.dart';

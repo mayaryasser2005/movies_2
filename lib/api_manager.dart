@@ -7,8 +7,7 @@ import 'package:http/http.dart' as http;
 class ApiManager{
   // static const url = "https://api.themoviedb.org/3/movie/popular?apikey=${Constant.apikey}";
 
-
-  static Future<List<PopularResponse>> getPopular()async{
+  Future<List<PopularResponse>> getPopular() async {
     Uri url = Uri.https("api.themoviedb.org","3/movie/popular",{
       "apikey":Constant.apikey,
     });
