@@ -20,7 +20,7 @@ class _HomeTabState extends State<HomeTab> {
   @override
   void initState(){
     super.initState();
-    popular = ApiManager().getPopular();
+    popular = ApiManager.getPopular();
   }
 
 

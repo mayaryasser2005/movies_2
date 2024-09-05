@@ -1,17 +1,15 @@
 import 'dart:convert';
 
+import 'package:http/http.dart' as http;
 import 'package:movies_2/utils/constant.dart';
 
 import 'model/popular.dart';
-import 'package:http/http.dart' as http;
 class ApiManager{
-  // static const url = "https://api.themoviedb.org/3/movie/popular?apikey=${Constant.apikey}";
+  static const _url =
+      "https://api.themoviedb.org/3/movie/popular?apikey=${Constant.apikey}";
 
-  Future<List<PopularResponse>> getPopular() async {
-    Uri url = Uri.https("api.themoviedb.org","3/movie/popular",{
-      "apikey":Constant.apikey,
-    });
-    http.Response response = await http.get(url);
+  static Future<List<PopularResponse>> getPopular() async {
+    final response = await http.get(Uri.parse(_url));
     if(response.statusCode==200){
       final json = jsonDecode(response.body)['results'] as List;
       print(json);
