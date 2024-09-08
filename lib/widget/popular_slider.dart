@@ -1,11 +1,13 @@
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:movies_2/model/popular.dart';
 import 'package:movies_2/utils/constant.dart';
 
 class PopularSlider extends StatelessWidget {
-  const PopularSlider({super.key, required this.snapshot});
-  final AsyncSnapshot snapshot;
+  const PopularSlider({super.key, required this.results});
+
+  final List<PopularResponse> results;
   @override
   Widget build(BuildContext context) {
     return Column(
@@ -28,12 +30,11 @@ class PopularSlider extends StatelessWidget {
                 borderRadius: BorderRadius.circular(12),
                 child: SizedBox(
                   height: 300,
-                  width: 200,
-                  child:Image.network(
+                      width: 400,
+                      child:Image.network(
                       filterQuality:FilterQuality.high,
                     fit: BoxFit.cover,
-                    "${Constant.imagePath}${snapshot.data![index].posterPath}"
-                  )
+                          "${Constant.imagePath}${results[index]}")
                 )
               );
             },

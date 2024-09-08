@@ -15,14 +15,13 @@ class HomeTab extends StatefulWidget {
 }
 
 class _HomeTabState extends State<HomeTab> {
-  late Future<List<PopularResponse>> popular;
-
+  late Future<PopularResponse> popular;
   @override
-  void initState(){
+  void initState() {
     super.initState();
-    popular = ApiManager.getPopular();
+    popular = ApiManager
+        .getPopular(); // هنا يجب أن تتأكد أن الدالة تعيد 'PopularResponse'
   }
-
 
   @override
   Widget build(BuildContext context) {
@@ -40,64 +39,54 @@ class _HomeTabState extends State<HomeTab> {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              const SizedBox(
-                height: 32,
+              const SizedBox(height: 32),
+              FutureBuilder<PopularResponse>(
+                future: popular,
+                builder: (context, snapshot) {
+                  if (snapshot.hasError) {
+                    return Center(child: Text(snapshot.error.toString()));
+                  } else if (snapshot.hasData) {
+                    // التأكد من الوصول إلى 'results' في 'PopularResponse'
+                    return PopularSlider(
+                        results: snapshot.data as List<PopularResponse>);
+                  } else {
+                    return const Center(child: CircularProgressIndicator());
+                  }
+                },
               ),
-              SizedBox(
-                child: FutureBuilder(
-                  future: popular,
-                  builder: (context, snapshot) {
-                    if (snapshot.hasError) {
-                      return Center(
-                        child: Text(snapshot.error.toString()),
-                      );
-                    } else if (snapshot.hasData) {
-                      // final data = snapshot.data;
-                      return PopularSlider(snapshot: snapshot);
-                    } else {
-                      return const Center(child: CircularProgressIndicator());
-                    }
-                  },
-                ),
-              ),
-              const SizedBox(
-                height: 32,
-              ),
+              const SizedBox(height: 32),
               Text(
                 "New Releases",
                 style: GoogleFonts.aBeeZee(fontSize: 25),
               ),
-              const SizedBox(
-                height: 32,
-              ),
+              const SizedBox(height: 32),
               const NewReleasesSlider(),
               Text(
-                "Recomended",
+                "Recommended",
                 style: GoogleFonts.aBeeZee(fontSize: 25),
               ),
-              const SizedBox(
-                height: 32,
-              ),
+              const SizedBox(height: 32),
               SizedBox(
                 height: 200,
                 width: double.infinity,
                 child: ListView.builder(
-                    scrollDirection: Axis.horizontal,
-                    physics: const BouncingScrollPhysics(),
-                    itemCount: 10,
-                    itemBuilder: (context, index) {
-                      return Padding(
-                        padding: const EdgeInsets.all(8.0),
-                        child: ClipRRect(
-                          borderRadius: BorderRadius.circular(8),
-                          child: Container(
-                            color: Colors.amber,
-                            height: 200,
-                            width: 150,
-                          ),
+                  scrollDirection: Axis.horizontal,
+                  physics: const BouncingScrollPhysics(),
+                  itemCount: 10,
+                  itemBuilder: (context, index) {
+                    return Padding(
+                      padding: const EdgeInsets.all(8.0),
+                      child: ClipRRect(
+                        borderRadius: BorderRadius.circular(8),
+                        child: Container(
+                          color: Colors.amber,
+                          height: 200,
+                          width: 150,
                         ),
-                      );
-                    }),
+                      ),
+                    );
+                  },
+                ),
               )
             ],
           ),
