@@ -15,12 +15,13 @@ class HomeTab extends StatefulWidget {
 }
 
 class _HomeTabState extends State<HomeTab> {
-  late Future<PopularResponse> popular;
+  late Future<List<PopularResponse>> popular;
   @override
   void initState() {
     super.initState();
-    popular = ApiManager
-        .getPopular(); // هنا يجب أن تتأكد أن الدالة تعيد 'PopularResponse'
+    popular = ApiManager.getPopular() as Future<
+        List<
+            PopularResponse>>; // هنا يجب أن تتأكد أن الدالة تعيد 'PopularResponse'
   }
 
   @override
@@ -40,7 +41,7 @@ class _HomeTabState extends State<HomeTab> {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               const SizedBox(height: 32),
-              FutureBuilder<PopularResponse>(
+              FutureBuilder<List<PopularResponse>>(
                 future: popular,
                 builder: (context, snapshot) {
                   if (snapshot.hasError) {

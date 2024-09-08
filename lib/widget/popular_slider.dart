@@ -34,8 +34,7 @@ class PopularSlider extends StatelessWidget {
                       child:Image.network(
                       filterQuality:FilterQuality.high,
                     fit: BoxFit.cover,
-                          "${Constant.imagePath}${results[index]}")
-                )
+                          "${Constant.imagePath}${results[index].results?[index].posterPath}"))
               );
             },
           ),
