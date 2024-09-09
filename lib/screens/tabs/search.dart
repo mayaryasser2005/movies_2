@@ -49,7 +49,11 @@ class _SearchState extends State<Search> {
               child: CupertinoSearchTextField(
                 padding: EdgeInsets.all(15),
                 controller: searchController,
-                prefixIcon: Icon(Icons.search, color: Colors.grey),
+                prefixIcon: Icon(
+                  Icons.search,
+                  color: Colors.grey,
+                  size: 25,
+                ),
                 suffixIcon: Icon(Icons.cancel, color: Colors.grey),
                 style: TextStyle(color: Colors.white),
                 backgroundColor: Colors.grey.withOpacity(0.3),

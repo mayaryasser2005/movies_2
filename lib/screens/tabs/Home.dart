@@ -43,14 +43,15 @@ class _HomeTabState extends State<HomeTab> {
               onPressed: () {
                 Navigator.pushNamed(context, Search.routeNamed);
               },
-              icon: Icon(Icons.search))
+              highlightColor: Colors.amber, //////////////////////////////
+              icon: Icon(Icons.search)),
         ],
         centerTitle: true,
       ),
       body: SingleChildScrollView(
         physics: const BouncingScrollPhysics(),
         child: Padding(
-          padding: const EdgeInsets.all(8.0),
+          padding: const EdgeInsets.only(left: 8, right: 8),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
@@ -69,12 +70,12 @@ class _HomeTabState extends State<HomeTab> {
                   }
                 },
               ),
-              const SizedBox(height: 32),
+              const SizedBox(height: 20),
               Text(
                 "New Releases",
                 style: GoogleFonts.aBeeZee(fontSize: 25),
               ),
-              const SizedBox(height: 32),
+              const SizedBox(height: 20),
               FutureBuilder<NewReleasesResponse>(
                 future: NewReleases,
                 builder: (context, snapshot) {
@@ -93,7 +94,7 @@ class _HomeTabState extends State<HomeTab> {
                 "Recommended",
                 style: GoogleFonts.aBeeZee(fontSize: 25),
               ),
-              const SizedBox(height: 32),
+              const SizedBox(height: 20),
               FutureBuilder<RecomendedResponse>(
                 future: Recomended,
                 builder: (context, snapshot) {

@@ -7,6 +7,7 @@ import 'package:movies_2/utils/constant.dart';
 
 import 'model/NewReleases.dart';
 import 'model/Recomended.dart';
+import 'model/category.dart';
 import 'model/popular.dart';
 import 'model/search.dart';
 
@@ -81,5 +82,14 @@ class ApiManager {
     var json = jsonDecode(response.body);
     SimilarMovieResponse similar = SimilarMovieResponse.fromJson(json);
     return similar;
+  }
+
+  Future<CategoriesResponse> getCategoryMovie() async {
+    Uri url = Uri.https(
+        Constant.BaseURL, "3/genre/movie/list", {"language": "en_US"});
+    var response = await http.get(url, headers: headers);
+    var json = jsonDecode(response.body);
+    CategoriesResponse results = CategoriesResponse.fromJson(json);
+    return results;
   }
 }

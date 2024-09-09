@@ -1,4 +1,3 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 
@@ -33,40 +32,41 @@ class _MovieDetailsState extends State<MovieDetails> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: Column(
-        children: [
-          Stack(
-            children: [
-              Container(
-                // decoration: const BoxDecoration(
-                //   color: Colors.black12, // Default background color
-                // ),
-                child: FutureBuilder<MovieDitalesResponse>(
-                  future: movieDetails,
-                  builder: (context, snapshot) {
-                    if (snapshot.connectionState == ConnectionState.waiting) {
-                      return const Center(
-                        child: CircularProgressIndicator(),
-                      );
-                    } else if (snapshot.hasError) {
-                      return const Center(
-                        child: Text('Error loading movie details'),
-                      );
-                    } else if (snapshot.hasData) {
-                      var movie = snapshot.data!;
+      body: SingleChildScrollView(
+        child: Column(
+          children: [
+            Stack(
+              children: [
+                Container(
+                  // decoration: const BoxDecoration(
+                  //   color: Colors.black12, // Default background color
+                  // ),
+                  child: FutureBuilder<MovieDitalesResponse>(
+                    future: movieDetails,
+                    builder: (context, snapshot) {
+                      if (snapshot.connectionState == ConnectionState.waiting) {
+                        return const Center(
+                          child: CircularProgressIndicator(),
+                        );
+                      } else if (snapshot.hasError) {
+                        return const Center(
+                          child: Text('Error loading movie details'),
+                        );
+                      } else if (snapshot.hasData) {
+                        var movie = snapshot.data!;
 
-                      // Ensure that genres are not null
-                      String genreText =
-                          movie.genres?.map((genre) => genre.name).join(", ") ??
-                              'Unknown';
+                        // Ensure that genres are not null
+                        String genreText = movie.genres
+                                ?.map((genre) => genre.name)
+                                .join(", ") ??
+                            'Unknown';
 
-                      // Format release date if available
-                      String releaseDate = movie.releaseDate != null
-                          ? "${movie.releaseDate!}"
-                          : 'Unknown';
+                        // Format release date if available
+                        String releaseDate = movie.releaseDate != null
+                            ? "${movie.releaseDate!}"
+                            : 'Unknown';
 
-                      return SingleChildScrollView(
-                        child: Column(
+                        return Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
                             Stack(
@@ -75,7 +75,7 @@ class _MovieDetailsState extends State<MovieDetails> {
                                   borderRadius: BorderRadius.circular(12),
                                   child: SizedBox(
                                     height: 300,
-                                    width: 400,
+                                    width: 425,
                                     child: movie.backdropPath == null
                                         ? Image.asset(
                                             'assets/image/movies.png',
@@ -88,88 +88,98 @@ class _MovieDetailsState extends State<MovieDetails> {
                                           ),
                                   ),
                                 ),
-                                IconButton(
-                                  icon: Icon(Icons.arrow_back,
-                                      color: Colors.black),
-                                  onPressed: () {
-                                    Navigator.pop(context);
-                                  },
+                                Container(
+                                  margin: EdgeInsets.only(top: 35, left: 10),
+                                  decoration: BoxDecoration(
+                                      color: Colors.transparent,
+                                      borderRadius: BorderRadius.circular(75)),
+                                  child: IconButton(
+                                    icon: Icon(
+                                      Icons.arrow_back,
+                                      color: Colors.black,
+                                      size: 35,
+                                    ),
+                                    onPressed: () {
+                                      Navigator.pop(context);
+                                    },
+                                  ),
                                 )
                               ],
                             ),
                             const SizedBox(height: 20),
-                            Padding(
-                              padding: const EdgeInsets.all(0.0),
-                              child: Column(
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                children: [
-                                  Text(
-                                    movie.originalTitle ?? 'Unknown',
-                                    maxLines: 2,
-                                    style: const TextStyle(fontSize: 25),
-                                  ),
-                                  const SizedBox(height: 5),
-                                  Text(
-                                    releaseDate,
-                                    style: TextStyle(color: Colors.grey),
-                                  ),
-                                  Row(
-                                    children: [
-                                      ClipRRect(
-                                        borderRadius: BorderRadius.circular(50),
-                                        child: Padding(
-                                          padding: const EdgeInsets.all(8.0),
-                                          child: SizedBox(
-                                            height: 230,
-                                            width: 125,
-                                            child: movie.posterPath == null
-                                                ? Image.asset(
-                                                    "assets/image/movies.png")
-                                                : Image.network(
-                                                    "${Constant.imagePath}${movie.posterPath}",
-                                                    filterQuality:
-                                                        FilterQuality.high,
-                                                    fit: BoxFit.cover,
-                                                    width: 100,
-                                                    height: 175,
-                                                  ),
-                                          ),
-                                        ),
-                                      ),
-                                      const SizedBox(width: 10),
-                                      Column(
-                                        crossAxisAlignment:
-                                            CrossAxisAlignment.start,
-                                        children: [
-                                          SizedBox(
-                                            width: 200,
-                                            child: Text(
-                                              genreText,
-                                              style: const TextStyle(
-                                                  fontSize: 15,
-                                                  color: Colors.grey),
-                                            ),
-                                          ),
-                                          const SizedBox(height: 10),
-                                          SizedBox(
-                                            width: 220,
-                                            child: Text(
-                                              movie.overview ??
-                                                  'No overview available',
-                                              maxLines: 5,
-                                              overflow: TextOverflow.ellipsis,
-                                              style:
-                                                  const TextStyle(fontSize: 20),
-                                            ),
-                                          ),
-                                        ],
-                                      ),
-                                    ],
-                                  ),
-                                ],
+                            Container(
+                              margin: EdgeInsets.only(left: 5),
+                              child: Text(
+                                movie.originalTitle ?? 'Unknown',
+                                maxLines: 2,
+                                style: const TextStyle(fontSize: 25),
                               ),
                             ),
-                            // Text("More like this", style: GoogleFonts.aBeeZee(fontSize: 25)),
+                            const SizedBox(height: 5),
+                            Container(
+                              margin: EdgeInsets.only(left: 10),
+                              child: Text(
+                                releaseDate,
+                                style: TextStyle(color: Colors.grey),
+                              ),
+                            ),
+                            Row(
+                              children: [
+                                ClipRRect(
+                                  borderRadius: BorderRadius.circular(50),
+                                  child: Padding(
+                                    padding: const EdgeInsets.all(8.0),
+                                    child: SizedBox(
+                                      height: 230,
+                                      width: 125,
+                                      child: movie.posterPath == null
+                                          ? Image.asset(
+                                              "assets/image/movies.png")
+                                          : Image.network(
+                                              "${Constant.imagePath}${movie.posterPath}",
+                                              filterQuality: FilterQuality.high,
+                                              fit: BoxFit.cover,
+                                              width: 100,
+                                              height: 175,
+                                            ),
+                                    ),
+                                  ),
+                                ),
+                                const SizedBox(width: 10),
+                                Column(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: [
+                                    SizedBox(
+                                      width: 200,
+                                      child: Text(
+                                        genreText,
+                                        style: const TextStyle(
+                                            fontSize: 15, color: Colors.grey),
+                                      ),
+                                    ),
+                                    const SizedBox(height: 10),
+                                    SizedBox(
+                                      width: 250,
+                                      child: Text(
+                                        movie.overview ??
+                                            'No overview available',
+                                        maxLines: 5,
+                                        overflow: TextOverflow.ellipsis,
+                                        style: const TextStyle(fontSize: 20),
+                                      ),
+                                    ),
+                                  ],
+                                ),
+                              ],
+                            ),
+                            SizedBox(
+                              height: 10,
+                            ),
+                            Text("More like this",
+                                style: GoogleFonts.aBeeZee(fontSize: 25)),
+                            SizedBox(
+                              height: 10,
+                            ),
                             SizedBox(
                               height: 200,
                               width: double.infinity,
@@ -202,19 +212,19 @@ class _MovieDetailsState extends State<MovieDetails> {
                               ),
                             )
                           ],
-                        ),
-                      );
-                    } else {
-                      return const Center(
-                        child: Text('No movie data available'),
-                      );
-                    }
-                  },
+                        );
+                      } else {
+                        return const Center(
+                          child: Text('No movie data available'),
+                        );
+                      }
+                    },
+                  ),
                 ),
-              ),
-            ],
-          ),
-        ],
+              ],
+            ),
+          ],
+        ),
       ),
     );
   }
