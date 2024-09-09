@@ -1,6 +1,8 @@
 import 'dart:convert';
 
 import 'package:http/http.dart' as http;
+import 'package:movies_2/model/movie_details.dart';
+import 'package:movies_2/model/similar_movie.dart';
 import 'package:movies_2/utils/constant.dart';
 
 import 'model/NewReleases.dart';
@@ -56,5 +58,28 @@ class ApiManager {
     var json = jsonDecode(response.body);
     SearchRespones results = SearchRespones.fromJson(json);
     return results;
+  }
+
+  Future<MovieDitalesResponse> getMovieDetails(num movieId) async {
+    Uri url = Uri.https(
+        Constant.BaseURL, "/3/movie/${movieId}", {"language": "en_US"});
+    try {
+      var response = await http.get(url, headers: headers);
+      var json = jsonDecode(response.body);
+      MovieDitalesResponse filmDetail = MovieDitalesResponse.fromJson(json);
+      return filmDetail;
+    } catch (e) {
+      print(e.toString());
+    }
+    return MovieDitalesResponse();
+  }
+
+  Future<SimilarMovieResponse> getSimilarMovies(num samemovieID) async {
+    Uri url = Uri.https(Constant.BaseURL, "/3/movie/$samemovieID/similar",
+        {"language": "en_US"});
+    var response = await http.get(url, headers: headers);
+    var json = jsonDecode(response.body);
+    SimilarMovieResponse similar = SimilarMovieResponse.fromJson(json);
+    return similar;
   }
 }

@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:movies_2/api_manager.dart';
+import 'package:movies_2/screens/tabs/search.dart';
 
 import '../../model/NewReleases.dart';
 import '../../model/Recomended.dart';
@@ -37,6 +38,13 @@ class _HomeTabState extends State<HomeTab> {
         title: const Text(
           "Movies",
         ),
+        actions: [
+          IconButton(
+              onPressed: () {
+                Navigator.pushNamed(context, Search.routeNamed);
+              },
+              icon: Icon(Icons.search))
+        ],
         centerTitle: true,
       ),
       body: SingleChildScrollView(

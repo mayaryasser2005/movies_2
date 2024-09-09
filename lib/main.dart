@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:movies_2/screens/home.dart';
-import 'package:movies_2/screens/tabs/Home.dart';
+import 'package:movies_2/screens/tabs/search.dart';
 import 'package:movies_2/splash/splash.dart';
 
 void main() {
@@ -20,7 +20,8 @@ class MyApp extends StatelessWidget {
       ),
       routes: {
         Splash.routeNamed:(_) => Splash(),
-        Home.routeNamed:(_) => Home()
+        Home.routeNamed: (_) => Home(),
+        Search.routeNamed: (_) => Search()
       },
       initialRoute: Splash.routeNamed,
     );
