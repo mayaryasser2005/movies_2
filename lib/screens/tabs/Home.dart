@@ -2,8 +2,11 @@ import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:movies_2/api_manager.dart';
 
+import '../../model/NewReleases.dart';
+import '../../model/Recomended.dart';
 import '../../model/popular.dart';
 import '../../widget/New_Releases.dart';
+import '../../widget/Recomended.dart';
 import '../../widget/popular_slider.dart';
 
 class HomeTab extends StatefulWidget {
@@ -15,13 +18,16 @@ class HomeTab extends StatefulWidget {
 }
 
 class _HomeTabState extends State<HomeTab> {
-  late Future<List<PopularResponse>> popular;
+  late Future<PopularResponse> popular;
+  late Future<NewReleasesResponse> NewReleases;
+  late Future<RecomendedResponse> Recomended;
   @override
   void initState() {
     super.initState();
-    popular = ApiManager.getPopular() as Future<
-        List<
-            PopularResponse>>; // هنا يجب أن تتأكد أن الدالة تعيد 'PopularResponse'
+    popular = ApiManager().getPopular() as Future<
+        PopularResponse>; // هنا يجب أن تتأكد أن الدالة تعيد 'PopularResponse'
+    NewReleases = ApiManager().getRecent() as Future<NewReleasesResponse>;
+    Recomended = ApiManager().getRecomended() as Future<RecomendedResponse>;
   }
 
   @override
@@ -41,7 +47,7 @@ class _HomeTabState extends State<HomeTab> {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               const SizedBox(height: 32),
-              FutureBuilder<List<PopularResponse>>(
+              FutureBuilder<PopularResponse>(
                 future: popular,
                 builder: (context, snapshot) {
                   if (snapshot.hasError) {
@@ -49,7 +55,7 @@ class _HomeTabState extends State<HomeTab> {
                   } else if (snapshot.hasData) {
                     // التأكد من الوصول إلى 'results' في 'PopularResponse'
                     return PopularSlider(
-                        results: snapshot.data as List<PopularResponse>);
+                        results: snapshot.data as PopularResponse);
                   } else {
                     return const Center(child: CircularProgressIndicator());
                   }
@@ -61,34 +67,39 @@ class _HomeTabState extends State<HomeTab> {
                 style: GoogleFonts.aBeeZee(fontSize: 25),
               ),
               const SizedBox(height: 32),
-              const NewReleasesSlider(),
+              FutureBuilder<NewReleasesResponse>(
+                future: NewReleases,
+                builder: (context, snapshot) {
+                  if (snapshot.hasError) {
+                    return Center(child: Text(snapshot.error.toString()));
+                  } else if (snapshot.hasData) {
+                    // التأكد من الوصول إلى 'results' في 'PopularResponse'
+                    return NewReleasesSlider(
+                        results: snapshot.data as NewReleasesResponse);
+                  } else {
+                    return const Center(child: CircularProgressIndicator());
+                  }
+                },
+              ),
               Text(
                 "Recommended",
                 style: GoogleFonts.aBeeZee(fontSize: 25),
               ),
               const SizedBox(height: 32),
-              SizedBox(
-                height: 200,
-                width: double.infinity,
-                child: ListView.builder(
-                  scrollDirection: Axis.horizontal,
-                  physics: const BouncingScrollPhysics(),
-                  itemCount: 10,
-                  itemBuilder: (context, index) {
-                    return Padding(
-                      padding: const EdgeInsets.all(8.0),
-                      child: ClipRRect(
-                        borderRadius: BorderRadius.circular(8),
-                        child: Container(
-                          color: Colors.amber,
-                          height: 200,
-                          width: 150,
-                        ),
-                      ),
-                    );
-                  },
-                ),
-              )
+              FutureBuilder<RecomendedResponse>(
+                future: Recomended,
+                builder: (context, snapshot) {
+                  if (snapshot.hasError) {
+                    return Center(child: Text(snapshot.error.toString()));
+                  } else if (snapshot.hasData) {
+                    // التأكد من الوصول إلى 'results' في 'PopularResponse'
+                    return RecomendedSlider(
+                        results: snapshot.data as RecomendedResponse);
+                  } else {
+                    return const Center(child: CircularProgressIndicator());
+                  }
+                },
+              ),
             ],
           ),
         ),

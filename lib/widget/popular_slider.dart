@@ -7,7 +7,7 @@ import 'package:movies_2/utils/constant.dart';
 class PopularSlider extends StatelessWidget {
   const PopularSlider({super.key, required this.results});
 
-  final List<PopularResponse> results;
+  final PopularResponse results;
   @override
   Widget build(BuildContext context) {
     return Column(
@@ -34,14 +34,11 @@ class PopularSlider extends StatelessWidget {
                       child:Image.network(
                       filterQuality:FilterQuality.high,
                     fit: BoxFit.cover,
-                          "${Constant.imagePath}${results[index].results?[index].posterPath}"))
-              );
+                          "${Constant.imagePath}${results.results?[index].posterPath}")));
             },
           ),
       )
       ],
     );
-
-
   }
 }

@@ -1,9 +1,13 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
-class RecomendedSlider extends StatelessWidget {
-  const RecomendedSlider({super.key});
+import '../model/Recomended.dart';
+import '../utils/constant.dart';
 
+class RecomendedSlider extends StatelessWidget {
+  const RecomendedSlider({super.key, required this.results});
+
+  final RecomendedResponse results;
   @override
   Widget build(BuildContext context) {
     return SizedBox(
@@ -18,12 +22,13 @@ class RecomendedSlider extends StatelessWidget {
               padding: const EdgeInsets.all(8.0),
               child: ClipRRect(
                 borderRadius: BorderRadius.circular(8),
-                child: Container(
-                  color: Colors.amber,
-                  height: 200,
-                  width: 150,
-                ),
-              ),
+                  child: SizedBox(
+                      height: 200,
+                      width: 150,
+                      child: Image.network(
+                          filterQuality: FilterQuality.high,
+                          fit: BoxFit.cover,
+                          "${Constant.imagePath}${results.results?[index].posterPath}"))),
             );
           }),
     );
