@@ -25,39 +25,37 @@ class _BrowseState extends State<Browse> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: SingleChildScrollView(
-        child: SafeArea(
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              SizedBox(
-                height: 50,
-              ),
-              Text(
-                "Browser Category",
-                style: TextStyle(fontSize: 25),
-              ),
-              SizedBox(
-                height: 20,
-              ),
+      body: SafeArea(
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            SizedBox(
+              height: 50,
+            ),
+            Text(
+              "Browser Category",
+              style: TextStyle(fontSize: 25),
+            ),
+            SizedBox(
+              height: 20,
+            ),
 
-              CategoryItem()
-              //
-              // FutureBuilder<CategoriesResponse>(
-              //   future:category, // استخدام future هنا
-              //   builder: (context, snapshot) {
-              //     if (snapshot.hasError) {
-              //       return Center(child: Text(snapshot.error.toString()));
-              //     } else if (snapshot.hasData) {
-              //       var categoryData = snapshot.data!;
-              //       return CategoryItem();
-              //     } else {
-              //       return const Center(child: CircularProgressIndicator());
-              //     }
-              //   },
-              // ),
-            ],
-          ),
+            CategoryItem()
+            //
+            // FutureBuilder<CategoriesResponse>(
+            //   future:category, // استخدام future هنا
+            //   builder: (context, snapshot) {
+            //     if (snapshot.hasError) {
+            //       return Center(child: Text(snapshot.error.toString()));
+            //     } else if (snapshot.hasData) {
+            //       var categoryData = snapshot.data!;
+            //       return CategoryItem();
+            //     } else {
+            //       return const Center(child: CircularProgressIndicator());
+            //     }
+            //   },
+            // ),
+          ],
         ),
       ),
     );

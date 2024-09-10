@@ -8,6 +8,7 @@ import 'package:movies_2/utils/constant.dart';
 import 'model/NewReleases.dart';
 import 'model/Recomended.dart';
 import 'model/category.dart';
+import 'model/category_ditails.dart';
 import 'model/popular.dart';
 import 'model/search.dart';
 
@@ -91,5 +92,24 @@ class ApiManager {
     var json = jsonDecode(response.body);
     CategoriesResponse results = CategoriesResponse.fromJson(json);
     return results;
+  }
+
+  Future<CategoryDitailsResponse> getCategoryListMovie(num id) async {
+    Uri url = Uri.https(Constant.BaseURL, "3/discover/movie", {
+      "language": "en_US",
+      "with_genres": id.toString(),
+    });
+    try {
+      var response = await http.get(url, headers: headers);
+      var json = jsonDecode(response.body); //sucess //success
+      CategoryDitailsResponse results =
+          CategoryDitailsResponse.fromJson(json); //fail??? //success
+      print(results); //fail???? //success?? HOW ?!?!?!
+      return results;
+    } catch (e) {
+      print(e.toString());
+    }
+    print("object");
+    return CategoryDitailsResponse();
   }
 }

@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:movies_2/model/category.dart';
 
 import '../api_manager.dart';
+import '../model/category_ditails.dart';
+import '../screens/category_movie.dart';
 
 class CategoryItem extends StatefulWidget {
   CategoryItem({super.key});
@@ -14,6 +16,7 @@ class _CategoryItemState extends State<CategoryItem> {
   late Future<CategoriesResponse> category; // مستقبل الفئة
   CategoriesResponse? listCategory; // جعل listCategory قابلاً لأن يكون null
   Genres? genres;
+  CategoryDitailsResponse? categoryResult;
 
   @override
   void initState() {
@@ -44,32 +47,46 @@ class _CategoryItemState extends State<CategoryItem> {
 
           // عرض البيانات باستخدام ListView.builder
           return Expanded(
-            child: ListView.builder(
-              itemCount: listCategory!.genres!.length,
+            child: ListView.separated(
+              separatorBuilder: (context, index) => Divider(),
+              itemCount: listCategory!.genres!.length, ////////////////
               itemBuilder: (context, index) {
-                var genre = listCategory!.genres![index];
+                var movie = listCategory?.genres?[index]; ///////////////
+                var genre = listCategory!.genres![index]; /////////////////////
                 return Row(
                   mainAxisAlignment: MainAxisAlignment.start,
                   children: [
                     Padding(
                       padding: const EdgeInsets.all(20.0),
-                      child: Row(
-                        children: [
-                          ClipRRect(
-                            child: Image.asset(
-                              "assets/image/${genre.id}.jpg",
-                              // استخدام genre.id
-                              height: 100,
-                              width: 160,
-                              fit: BoxFit.cover,
+                      child: InkWell(
+                        onTap: () {
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                              builder: (context) => CategoryMovie(
+                                categoryID: movie?.id ?? 0, // Ensure valid ID
+                              ),
                             ),
-                          ),
-                          SizedBox(width: 20),
-                          Text(
-                            genre.name ?? "Unknown Category", // عرض اسم الفئة
-                            style: TextStyle(fontSize: 22),
-                          ),
-                        ],
+                          );
+                        },
+                        child: Row(
+                          children: [
+                            ClipRRect(
+                              child: Image.asset(
+                                "assets/image/${genre.id}.jpg",
+                                // استخدام genre.id
+                                height: 100,
+                                width: 160,
+                                fit: BoxFit.cover,
+                              ),
+                            ),
+                            SizedBox(width: 20),
+                            Text(
+                              genre.name ?? "Unknown Category", // عرض اسم الفئة
+                              style: TextStyle(fontSize: 22),
+                            ),
+                          ],
+                        ),
                       ),
                     ),
                   ],
