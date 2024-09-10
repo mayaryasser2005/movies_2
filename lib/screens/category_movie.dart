@@ -22,7 +22,6 @@ class CategoryMovie extends StatefulWidget {
 class _CategoryMovieState extends State<CategoryMovie> {
   Genres? genres;
 
-  // CategoryDitailsResponse? categoryDitailsID;
   late Future<CategoriesResponse> category; // مستقبل الفئة
   CategoriesResponse? listCategory; // جعل listCategory قابلاً لأن يكون null
   CategoryDitailsResponse? categoryResult;
@@ -32,7 +31,6 @@ class _CategoryMovieState extends State<CategoryMovie> {
     super.initState();
     category = ApiManager().getCategoryMovie(); // استدعاء API لجلب الفئات
   }
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -42,7 +40,7 @@ class _CategoryMovieState extends State<CategoryMovie> {
             height: 50,
           ),
           Text(
-            "${genres!.name}",
+            "${genres?.name}", // استخدام null-aware operator
             style: const TextStyle(fontSize: 25),
           ),
           const SizedBox(
@@ -62,22 +60,25 @@ class _CategoryMovieState extends State<CategoryMovie> {
                 // تعيين البيانات إلى listCategory عند استرجاع البيانات
                 listCategory = snapshot.data;
 
-                // التحقق من وجود بيانات
-                if (listCategory?.genres == null ||
-                    listCategory!.genres!.isEmpty) {
-                  return const Center(child: Text("No categories found"));
+                //التحقق من وجود بيانات
+                if (categoryResult?.results == null ||
+                    categoryResult!.results!.isEmpty) {
+                  return const Center(child: Text("No Movies found"));
                 }
 
                 // عرض البيانات باستخدام ListView.builder
                 return Expanded(
                   child: ListView.separated(
                     separatorBuilder: (context, index) => Divider(),
-                    itemCount: categoryResult!.results!.length,
-                    ////////////////
+                    itemCount: categoryResult?.results?.length ?? 0,
+                    // التحقق من null
                     itemBuilder: (context, index) {
                       var movie =
-                          categoryResult!.results![index]; ///////////////
-                      // var genre = listCategory!.genres![index];/////////////////////
+                          categoryResult?.results?[index]; // التحقق من null
+                      // if (movie == null) {
+                      //   return const SizedBox(); // التعامل مع حالة null
+                      // }
+
                       return Row(
                         mainAxisAlignment: MainAxisAlignment.start,
                         children: [
@@ -89,7 +90,8 @@ class _CategoryMovieState extends State<CategoryMovie> {
                                   context,
                                   MaterialPageRoute(
                                     builder: (context) => MovieDetails(
-                                      movieID: movie.id ?? 0, // Ensure valid ID
+                                      movieID:
+                                          movie?.id ?? 0, // Ensure valid ID
                                     ),
                                   ),
                                 );
@@ -103,14 +105,14 @@ class _CategoryMovieState extends State<CategoryMovie> {
                                       child: SizedBox(
                                         height: 100,
                                         width: 175,
-                                        child: movie.backdropPath == null
+                                        child: movie?.backdropPath == null
                                             ? Image.asset(
                                                 "assets/image/movies.png")
                                             : Image.network(
                                                 filterQuality:
                                                     FilterQuality.high,
                                                 fit: BoxFit.cover,
-                                                "${Constant.imagePath}${movie.posterPath}",
+                                                "${Constant.imagePath}${movie?.posterPath}",
                                               ),
                                       ),
                                     ),
@@ -119,7 +121,7 @@ class _CategoryMovieState extends State<CategoryMovie> {
                                   SizedBox(
                                     width: 200,
                                     child: Text(
-                                      movie.originalTitle ?? 'Unknown',
+                                      movie?.originalTitle ?? 'Unknown',
                                       maxLines: 2,
                                       overflow: TextOverflow.ellipsis,
                                       style: TextStyle(fontSize: 20),
