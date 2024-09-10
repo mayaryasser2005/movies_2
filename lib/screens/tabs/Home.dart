@@ -66,7 +66,10 @@ class _HomeTabState extends State<HomeTab> {
                     return PopularSlider(
                         results: snapshot.data as PopularResponse);
                   } else {
-                    return const Center(child: CircularProgressIndicator());
+                    return const Center(
+                        child: CircularProgressIndicator(
+                      color: Colors.amber,
+                    ));
                   }
                 },
               ),
@@ -86,7 +89,10 @@ class _HomeTabState extends State<HomeTab> {
                     return NewReleasesSlider(
                         results: snapshot.data as NewReleasesResponse);
                   } else {
-                    return const Center(child: CircularProgressIndicator());
+                    return const Center(
+                        child: CircularProgressIndicator(
+                      color: Colors.amber,
+                    ));
                   }
                 },
               ),
@@ -105,7 +111,10 @@ class _HomeTabState extends State<HomeTab> {
                     return RecomendedSlider(
                         results: snapshot.data as RecomendedResponse);
                   } else {
-                    return const Center(child: CircularProgressIndicator());
+                    return const Center(
+                        child: CircularProgressIndicator(
+                      color: Colors.amber,
+                    ));
                   }
                 },
               ),

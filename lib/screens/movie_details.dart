@@ -46,7 +46,9 @@ class _MovieDetailsState extends State<MovieDetails> {
                     builder: (context, snapshot) {
                       if (snapshot.connectionState == ConnectionState.waiting) {
                         return const Center(
-                          child: CircularProgressIndicator(),
+                          child: CircularProgressIndicator(
+                            color: Colors.amber,
+                          ),
                         );
                       } else if (snapshot.hasError) {
                         return const Center(
@@ -125,25 +127,49 @@ class _MovieDetailsState extends State<MovieDetails> {
                             ),
                             Row(
                               children: [
-                                ClipRRect(
-                                  borderRadius: BorderRadius.circular(50),
-                                  child: Padding(
-                                    padding: const EdgeInsets.all(8.0),
-                                    child: SizedBox(
-                                      height: 230,
-                                      width: 125,
-                                      child: movie.posterPath == null
-                                          ? Image.asset(
-                                              "assets/image/movies.png")
-                                          : Image.network(
-                                              "${Constant.imagePath}${movie.posterPath}",
-                                              filterQuality: FilterQuality.high,
-                                              fit: BoxFit.cover,
-                                              width: 100,
-                                              height: 175,
-                                            ),
+                                Stack(
+                                  children: [
+                                    ClipRRect(
+                                      borderRadius: BorderRadius.circular(50),
+                                      child: Padding(
+                                        padding: const EdgeInsets.all(8.0),
+                                        child: SizedBox(
+                                          height: 230,
+                                          width: 125,
+                                          child: movie.posterPath == null
+                                              ? Image.asset(
+                                                  "assets/image/movies.png")
+                                              : Image.network(
+                                                  "${Constant.imagePath}${movie.posterPath}",
+                                                  filterQuality:
+                                                      FilterQuality.high,
+                                                  fit: BoxFit.cover,
+                                                  width: 100,
+                                                  height: 175,
+                                                ),
+                                        ),
+                                      ),
                                     ),
-                                  ),
+                                    Padding(
+                                      padding: const EdgeInsets.all(8.0),
+                                      child: Container(
+                                        decoration: BoxDecoration(
+                                            color: Colors.grey,
+                                            borderRadius:
+                                                BorderRadius.circular(5)),
+                                        width: 33,
+                                        height: 33,
+                                        child: IconButton(
+                                          icon: Icon(
+                                            Icons.add,
+                                            size: 20,
+                                            color: Colors.black,
+                                          ),
+                                          onPressed: () {},
+                                        ),
+                                      ),
+                                    ),
+                                  ],
                                 ),
                                 const SizedBox(width: 10),
                                 Column(
