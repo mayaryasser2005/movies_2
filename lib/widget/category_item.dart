@@ -72,6 +72,7 @@ class _CategoryItemState extends State<CategoryItem> {
                         child: Row(
                           children: [
                             ClipRRect(
+                              borderRadius: BorderRadius.circular(10),
                               child: Image.asset(
                                 "assets/image/${genre.id}.jpg",
                                 // استخدام genre.id

@@ -41,20 +41,6 @@ class _BrowseState extends State<Browse> {
             ),
 
             CategoryItem()
-            //
-            // FutureBuilder<CategoriesResponse>(
-            //   future:category, // استخدام future هنا
-            //   builder: (context, snapshot) {
-            //     if (snapshot.hasError) {
-            //       return Center(child: Text(snapshot.error.toString()));
-            //     } else if (snapshot.hasData) {
-            //       var categoryData = snapshot.data!;
-            //       return CategoryItem();
-            //     } else {
-            //       return const Center(child: CircularProgressIndicator());
-            //     }
-            //   },
-            // ),
           ],
         ),
       ),
