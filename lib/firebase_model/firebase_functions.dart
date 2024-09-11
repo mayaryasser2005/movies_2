@@ -18,11 +18,24 @@ class FirebaseFunctions {
   static Future<void> addMovie(MovieModel movie) {
     var collection = getMoviesCollection();
     var docRef = collection.doc();
-    movie.id = docRef.id;
+
     return docRef.set(movie);
   }
 
-  static Future<void> deleteTask(String id) {
-    return getMoviesCollection().doc(id).delete();
+  static Future<void> deleteTask(int id) {
+    return getMoviesCollection().doc(id as String?).delete();
+  }
+
+  static Future<QuerySnapshot<MovieModel>> getMovie() {
+    var movieCollection = getMoviesCollection();
+    return movieCollection.get();
+    // .where("date",isEqualTo: date.millisecondsSinceEpoch)
+    //     .snapshots();
+  }
+
+  static Future<void> updateMovie(MovieModel movie) {
+    return getMoviesCollection().doc(movie.id as String).update(movie.toJson());
   }
 }
+
+//movie.id = docRef.id as int;

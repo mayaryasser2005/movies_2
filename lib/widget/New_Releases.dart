@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 
 import '../API_model/NewReleases.dart';
+import '../firebase_model/firebase_functions.dart';
+import '../firebase_model/movie_model.dart';
 import '../screens/movie_details.dart';
 import '../utils/constant.dart';
 
@@ -10,7 +12,7 @@ class NewReleasesSlider extends StatelessWidget {
   final NewReleasesResponse results;
   @override
   Widget build(BuildContext context) {
-    bool isAddedList = false;
+    MovieModel movieModel;
     return SizedBox(
       height: 200,
       width: double.infinity,
@@ -43,26 +45,37 @@ class NewReleasesSlider extends StatelessWidget {
                             child: Image.network(
                                 filterQuality: FilterQuality.high,
                                 fit: BoxFit.cover,
-                                "${Constant.imagePath}${results.results?[index].posterPath}"))),
+                                "${Constant.imagePath}${results.results?[index]
+                                    .posterPath}")
+                        )
+                    ),
+                    movieModel.isDone ??
+                        Icon(Icons.done, color: Colors.amber,)
+                        :
                     Container(
                       decoration: BoxDecoration(
-                          color: Colors.grey,
+                          color: Color.fromRGBO(43, 45, 48, 0.7),
                           borderRadius: BorderRadius.circular(5)),
                       width: 33,
                       height: 33,
                       child: IconButton(
-                        icon: isAddedList == true
-                            ? Icon(
-                                Icons.done,
-                                size: 20,
-                                color: Colors.black,
-                              )
-                            : Icon(
-                                Icons.add,
-                                size: 20,
-                                color: Colors.black,
-                              ),
-                        onPressed: () {},
+                        onPressed: () {
+                          MovieModel movie = MovieModel(
+                            title: "${results.results![index].originalTitle}",
+                            description: "${results.results![index].overview}",
+                            date: "${results.results![index].releaseDate}",
+                            image: "${results.results![index].posterPath}",
+                            id: results.results![index].id as int,
+                          );
+                          FirebaseFunctions.addMovie(movie);
+                          movie.isDone = true;
+                          FirebaseFunctions.updateMovie(movie);
+                        },
+                        icon: Icon(
+                          Icons.add,
+                          size: 20,
+                          color: Colors.white,
+                        ),
                       ),
                     ),
                   ],

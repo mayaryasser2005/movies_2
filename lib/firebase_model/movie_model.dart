@@ -1,15 +1,17 @@
 class MovieModel {
-  String id;
+  int id;
   late String title;
   late String description;
-  late int date;
+  late String date;
+  late String image;
   late bool isDone;
 
-  MovieModel(
-      {this.id = "",
+  MovieModel({
+    required this.id,
       required this.title,
       required this.description,
       required this.date,
+      required this.image,
       this.isDone = false});
 
   MovieModel.fromJson(Map<String, dynamic> json)
@@ -18,6 +20,7 @@ class MovieModel {
           title: json['title'],
           description: json['description'],
           date: json['date'],
+          image: json['image'],
           isDone: json['isDone'],
         );
 
@@ -27,6 +30,7 @@ class MovieModel {
       "title": title,
       "description": description,
       "date": date,
+      "image": image,
       "isDone": isDone,
     };
   }

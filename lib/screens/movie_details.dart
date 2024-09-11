@@ -1,12 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:movies_2/widget/similar_slider.dart';
 
 import '../API_model/NewReleases.dart';
 import '../API_model/movie_details.dart';
 import '../API_model/similar_movie.dart';
 import '../api_manager.dart';
 import '../utils/constant.dart';
-import '../widget/New_Releases.dart';
 
 class MovieDetails extends StatefulWidget {
   final int movieID;
@@ -37,7 +37,7 @@ class _MovieDetailsState extends State<MovieDetails> {
   fetchInitialData() {
     // Assign the correct future for movie details
     //
-    // sameMovies = apiManager.getSimilarMovies(results.results.);
+    sameMovies = apiManager.getSimilarMovies(results.results.id);
     movieDetails = apiManager.getMovieDetails(widget.movieID);
   }
 
@@ -228,15 +228,15 @@ class _MovieDetailsState extends State<MovieDetails> {
               ],
             ),
 
-            FutureBuilder<NewReleasesResponse>(
-              future: NewReleases,
+            FutureBuilder<SimilarMovieResponse>(
+              future: sameMovies,
               builder: (context, snapshot) {
                 if (snapshot.hasError) {
                   return Center(child: Text(snapshot.error.toString()));
                 } else if (snapshot.hasData) {
                   // التأكد من الوصول إلى 'results' في 'PopularResponse'
-                  return NewReleasesSlider(
-                      results: snapshot.data as NewReleasesResponse);
+                  return SimilarSlider(
+                      results: snapshot.data as SimilarMovieResponse);
                 } else {
                   return const Center(
                       child: CircularProgressIndicator(

@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 
 import '../API_model/Recomended.dart';
+import '../firebase_model/firebase_functions.dart';
+import '../firebase_model/movie_model.dart';
 import '../screens/movie_details.dart';
 import '../utils/constant.dart';
 
@@ -45,17 +47,28 @@ class RecomendedSlider extends StatelessWidget {
                                 "${Constant.imagePath}${results.results?[index].posterPath}"))),
                     Container(
                       decoration: BoxDecoration(
-                          color: Colors.grey,
+                          color: Color.fromRGBO(43, 45, 48, 0.7),
                           borderRadius: BorderRadius.circular(5)),
                       width: 33,
                       height: 33,
                       child: IconButton(
+                        onPressed: () {
+                          MovieModel movie = MovieModel(
+                            title: "${results.results![index].originalTitle}",
+                            description: "${results.results![index].overview}",
+                            date: "${results.results![index].releaseDate}",
+                            image: "${results.results![index].posterPath}",
+                            id: results.results![index].id as int,
+                          );
+                          FirebaseFunctions.addMovie(movie);
+                          movie.isDone = true;
+                          FirebaseFunctions.updateMovie(movie);
+                        },
                         icon: Icon(
                           Icons.add,
                           size: 20,
-                          color: Colors.black,
+                          color: Colors.white,
                         ),
-                        onPressed: () {},
                       ),
                     ),
                   ],
