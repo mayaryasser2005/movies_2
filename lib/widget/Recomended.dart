@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-import '../API_model/Recomended.dart';
+import '../API_model/api_widget_response.dart';
 import '../firebase_model/firebase_functions.dart';
 import '../firebase_model/movie_model.dart';
 import '../screens/movie_details.dart';
@@ -9,7 +9,7 @@ import '../utils/constant.dart';
 class RecomendedSlider extends StatelessWidget {
   const RecomendedSlider({super.key, required this.results});
 
-  final RecomendedResponse results;
+  final ApiWidgetResponse results;
   @override
   Widget build(BuildContext context) {
     return SizedBox(
@@ -17,7 +17,7 @@ class RecomendedSlider extends StatelessWidget {
       width: double.infinity,
       child: ListView.builder(
           scrollDirection: Axis.horizontal,
-          physics: BouncingScrollPhysics(),
+          physics: const BouncingScrollPhysics(),
           itemCount: results.results?.length,
           itemBuilder: (context ,index){
             var movie = results.results?[index];
@@ -47,10 +47,10 @@ class RecomendedSlider extends StatelessWidget {
                                 "${Constant.imagePath}${results.results?[index].posterPath}"))),
                     Container(
                       decoration: BoxDecoration(
-                          color: Color.fromRGBO(43, 45, 48, 0.7),
-                          borderRadius: BorderRadius.circular(5)),
-                      width: 33,
-                      height: 33,
+                          color: const Color.fromRGBO(43, 45, 48, 0.7),
+                          borderRadius: BorderRadius.circular(8)),
+                      width: 40,
+                      height: 40,
                       child: IconButton(
                         onPressed: () {
                           MovieModel movie = MovieModel(
@@ -64,7 +64,7 @@ class RecomendedSlider extends StatelessWidget {
                           movie.isDone = true;
                           FirebaseFunctions.updateMovie(movie);
                         },
-                        icon: Icon(
+                        icon: const Icon(
                           Icons.add,
                           size: 20,
                           color: Colors.white,

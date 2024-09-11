@@ -1,12 +1,12 @@
 import 'package:flutter/material.dart';
 
+import '../API_model/api_widget_response.dart';
 import '../API_model/category.dart';
-import '../API_model/category_ditails.dart';
 import '../api_manager.dart';
 import '../screens/category_movie.dart';
 
 class CategoryItem extends StatefulWidget {
-  CategoryItem({super.key});
+  const CategoryItem({super.key});
 
   @override
   State<CategoryItem> createState() => _CategoryItemState();
@@ -16,7 +16,7 @@ class _CategoryItemState extends State<CategoryItem> {
   late Future<CategoriesResponse> category; // مستقبل الفئة
   CategoriesResponse? listCategory; // جعل listCategory قابلاً لأن يكون null
   Genres? genres;
-  CategoryDitailsResponse? categoryResult;
+  ApiWidgetResponse? categoryResult;
 
   @override
   void initState() {
@@ -42,7 +42,7 @@ class _CategoryItemState extends State<CategoryItem> {
 
           // التحقق من وجود بيانات
           if (listCategory?.genres == null || listCategory!.genres!.isEmpty) {
-            return Center(child: Text("No categories found"));
+            return const Center(child: Text("No categories found"));
           }
 
           // عرض البيانات باستخدام GridView.builder
@@ -51,7 +51,7 @@ class _CategoryItemState extends State<CategoryItem> {
               gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
                 crossAxisCount: 2, // Number of columns
                 childAspectRatio: 1.2, // Adjust the size of grid items
-                mainAxisSpacing: 10,
+                mainAxisSpacing: 20,
                 crossAxisSpacing: 20,
               ),
               padding: const EdgeInsets.all(10),
@@ -76,15 +76,18 @@ class _CategoryItemState extends State<CategoryItem> {
                         borderRadius: BorderRadius.circular(10),
                         child: Image.asset(
                           "assets/image/${genre.id}.jpg", // استخدام genre.id
-                          height: 100,
-                          width: 160,
+                          height: 110,
+                          width: 190,
                           fit: BoxFit.cover,
                         ),
                       ),
-                      const SizedBox(height: 5),
+                      const SizedBox(height: 15),
                       Text(
                         genre.name ?? "Unknown Category", // عرض اسم الفئة
-                        style: const TextStyle(fontSize: 18),
+                        style: const TextStyle(
+                          fontSize: 18,
+                          color: Colors.amber,
+                        ),
                       ),
                     ],
                   ),

@@ -2,7 +2,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:movies_2/screens/movie_details.dart';
 
-import '../../API_model/search.dart';
+import '../../API_model/api_widget_response.dart';
 import '../../api_manager.dart';
 import '../../utils/constant.dart';
 
@@ -25,7 +25,7 @@ class _SearchState extends State<Search> {
   }
 
   ApiManager apiManager = ApiManager();
-  SearchRespones? search; // Ensure correct spelling (SearchResponse)
+  ApiWidgetResponse? search; // Ensure correct spelling (SearchResponse)
 
   void searchMovies(String query) {
     apiManager.getSearchMovies(query).then((results) {
@@ -34,7 +34,7 @@ class _SearchState extends State<Search> {
       });
     }).catchError((error) {
       // Handle errors, if any
-      print('Error: $error');
+      // print('Error: $error');
     });
   }
 
@@ -45,17 +45,23 @@ class _SearchState extends State<Search> {
         body: Column(
           children: [
             Padding(
-              padding: const EdgeInsets.all(25.0),
+              padding: const EdgeInsets.only(
+                  top: 25.0, left: 10, right: 10, bottom: 10),
               child: CupertinoSearchTextField(
-                padding: EdgeInsets.all(15),
+                borderRadius: BorderRadius.circular(20),
+                padding: const EdgeInsets.all(15),
                 controller: searchController,
-                prefixIcon: Icon(
+                prefixIcon: const Icon(
                   Icons.search,
                   color: Colors.amber,
                   size: 25,
                 ),
-                suffixIcon: Icon(Icons.cancel, color: Colors.amber),
-                style: TextStyle(color: Colors.white),
+                suffixIcon: const Icon(
+                  Icons.cancel,
+                  color: Colors.amber,
+                  size: 22,
+                ),
+                style: const TextStyle(color: Colors.white),
                 backgroundColor: Colors.grey.withOpacity(0.3),
                 onChanged: (value) {
                   if (value.isEmpty) {
@@ -70,7 +76,7 @@ class _SearchState extends State<Search> {
             ),
             Expanded(
               child: search == null
-                  ? Center(child: Text('No results'))
+                  ? const Center(child: Text('No results'))
                   : ListView.builder(
                       itemCount: search?.results?.length ?? 0,
                       // Check if results are null
@@ -90,11 +96,11 @@ class _SearchState extends State<Search> {
                           child: Row(
                             children: [
                               ClipRRect(
-                                borderRadius: BorderRadius.circular(50),
+                                borderRadius: BorderRadius.circular(40),
                                 child: Padding(
                                   padding: const EdgeInsets.all(8.0),
                                   child: SizedBox(
-                                    height: 100,
+                                    height: 250,
                                     width: 175,
                                     child: movie?.backdropPath == null
                                         ? Image.asset("assets/image/movies.png")
@@ -106,14 +112,15 @@ class _SearchState extends State<Search> {
                                   ),
                                 ),
                               ),
-                              SizedBox(width: 10),
+                              const SizedBox(width: 5),
                               SizedBox(
                                 width: 200,
                                 child: Text(
                                   "${movie?.originalTitle ?? 'Unknown'}",
-                                  maxLines: 2,
+                                  maxLines: 4,
                                   overflow: TextOverflow.ellipsis,
-                                  style: TextStyle(fontSize: 20),
+                                  style: const TextStyle(
+                                      fontSize: 20, color: Colors.amber),
                                 ),
                               )
                             ],

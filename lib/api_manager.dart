@@ -3,14 +3,9 @@ import 'dart:convert';
 import 'package:http/http.dart' as http;
 import 'package:movies_2/utils/constant.dart';
 
-import 'API_model/NewReleases.dart';
-import 'API_model/Recomended.dart';
+import 'API_model/api_widget_response.dart';
 import 'API_model/category.dart';
-import 'API_model/category_ditails.dart';
 import 'API_model/movie_details.dart';
-import 'API_model/popular.dart';
-import 'API_model/search.dart';
-import 'API_model/similar_movie.dart';
 
 class ApiManager {
   static const Map<String, String> headers = {
@@ -19,7 +14,7 @@ class ApiManager {
     "accept": "application/json"
   };
 
-  Future<PopularResponse> getPopular() async {
+  Future<ApiWidgetResponse> getPopular() async {
     var url = Uri.https(Constant.BaseURL, "3/movie/popular", {
       "language": "en-US",
       "page": "1",
@@ -27,38 +22,38 @@ class ApiManager {
 
     var response = await http.get(url, headers: headers);
     var jsonFile = jsonDecode(response.body);
-    var popularResponse = PopularResponse.fromJson(jsonFile);
+    var popularResponse = ApiWidgetResponse.fromJson(jsonFile);
     return popularResponse;
   }
 
-  Future<NewReleasesResponse> getRecent() async {
+  Future<ApiWidgetResponse> getRecent() async {
     var url = Uri.https(Constant.BaseURL, "/3/movie/upcoming", {
       "language": "en-US",
     });
 
     var response = await http.get(url, headers: headers);
     var jsonFile = jsonDecode(response.body);
-    var releasesResponse = NewReleasesResponse.fromJson(jsonFile);
+    var releasesResponse = ApiWidgetResponse.fromJson(jsonFile);
     return releasesResponse;
   }
 
-  Future<RecomendedResponse> getRecomended() async {
+  Future<ApiWidgetResponse> getRecomended() async {
     var url = Uri.https(Constant.BaseURL, "/3/movie/top_rated", {
       "language": "en-US",
     });
 
     var response = await http.get(url, headers: headers);
     var jsonFile = jsonDecode(response.body);
-    var releasesResponse = RecomendedResponse.fromJson(jsonFile);
+    var releasesResponse = ApiWidgetResponse.fromJson(jsonFile);
     return releasesResponse;
   }
 
-  Future<SearchRespones> getSearchMovies(String query) async {
+  Future<ApiWidgetResponse> getSearchMovies(String query) async {
     Uri url = Uri.https(Constant.BaseURL, "3/search/movie",
         {"language": "en_US", "query": query});
     var response = await http.get(url, headers: headers);
     var json = jsonDecode(response.body);
-    SearchRespones results = SearchRespones.fromJson(json);
+    ApiWidgetResponse results = ApiWidgetResponse.fromJson(json);
     return results;
   }
 
@@ -76,7 +71,7 @@ class ApiManager {
     return MovieDitalesResponse();
   }
 
-  Future<SimilarMovieResponse> getSimilarMovies(num samemovieID) async {
+  Future<ApiWidgetResponse> getSimilarMovies(num samemovieID) async {
     print("70-getSimilarMovies ${samemovieID}");
     Uri url = Uri.https(Constant.BaseURL, "/3/movie/$samemovieID/similar",
         {"language": "en_US"});
@@ -84,7 +79,7 @@ class ApiManager {
     var response = await http.get(url, headers: headers);
     var json = jsonDecode(response.body);
     print("83- json: ${json} ");
-    SimilarMovieResponse similar = SimilarMovieResponse.fromJson(json);
+    ApiWidgetResponse similar = ApiWidgetResponse.fromJson(json);
     return similar;
   }
 
@@ -97,7 +92,7 @@ class ApiManager {
     return results;
   }
 
-  Future<CategoryDitailsResponse> getCategoryListMovie(num id) async {
+  Future<ApiWidgetResponse> getCategoryListMovie(num id) async {
     Uri url = Uri.https(Constant.BaseURL, "3/discover/movie", {
       "language": "en_US",
       "with_genres": id.toString(),
@@ -105,14 +100,14 @@ class ApiManager {
     try {
       var response = await http.get(url, headers: headers);
       var json = jsonDecode(response.body); //sucess //success
-      CategoryDitailsResponse results =
-          CategoryDitailsResponse.fromJson(json); //fail??? //success
+      ApiWidgetResponse results =
+          ApiWidgetResponse.fromJson(json); //fail??? //success
       print(results); //fail???? //success?? HOW ?!?!?!
       return results;
     } catch (e) {
       print(e.toString());
     }
     print("object");
-    return CategoryDitailsResponse();
+    return ApiWidgetResponse();
   }
 }

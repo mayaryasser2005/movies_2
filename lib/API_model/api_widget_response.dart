@@ -1,20 +1,20 @@
 import 'movie.dart';
 
-class NewReleasesResponse {
+class ApiWidgetResponse {
   Dates? dates;
   int? page;
   List<Movie>? results;
   int? totalPages;
   int? totalResults;
 
-  NewReleasesResponse(
+  ApiWidgetResponse(
       {this.dates,
       this.page,
       this.results,
       this.totalPages,
       this.totalResults});
 
-  NewReleasesResponse.fromJson(Map<String, dynamic> json) {
+  ApiWidgetResponse.fromJson(Map<String, dynamic> json) {
     dates = json['dates'] != null ? new Dates.fromJson(json['dates']) : null;
     page = json['page'];
     if (json['results'] != null) {

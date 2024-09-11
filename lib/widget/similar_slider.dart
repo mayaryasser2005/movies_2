@@ -1,12 +1,12 @@
 import 'package:flutter/cupertino.dart';
 
-import '../API_model/similar_movie.dart';
+import '../API_model/api_widget_response.dart';
 import '../utils/constant.dart';
 
 class SimilarSlider extends StatelessWidget {
   const SimilarSlider({super.key, required this.similarMovieResponse});
 
-  final SimilarMovieResponse similarMovieResponse;
+  final ApiWidgetResponse similarMovieResponse;
 
   @override
   Widget build(BuildContext context) {

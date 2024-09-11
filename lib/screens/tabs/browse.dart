@@ -29,18 +29,20 @@ class _BrowseState extends State<Browse> {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            SizedBox(
-              height: 50,
+            const SizedBox(
+              height: 25,
             ),
-            Text(
-              "Browser Category",
-              style: TextStyle(fontSize: 25),
+            Container(
+              margin: const EdgeInsets.only(left: 25),
+              child: const Text(
+                "Browser Category",
+                style: TextStyle(fontSize: 25, color: Colors.amber),
+              ),
             ),
-            SizedBox(
-              height: 20,
+            const SizedBox(
+              height: 25,
             ),
-
-            CategoryItem()
+            const CategoryItem()
           ],
         ),
       ),

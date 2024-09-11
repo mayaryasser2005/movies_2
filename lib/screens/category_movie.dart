@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:movies_2/screens/movie_details.dart';
 
+import '../API_model/api_widget_response.dart';
 import '../API_model/category.dart';
-import '../API_model/category_ditails.dart';
 import '../api_manager.dart';
 import '../utils/constant.dart';
 
@@ -21,23 +21,23 @@ class CategoryMovie extends StatefulWidget {
 
 class _CategoryMovieState extends State<CategoryMovie> {
   Genres? genres;
-  late Future<CategoryDitailsResponse> category; // مستقبل الفئة
-  CategoryDitailsResponse? categoryResult;
+  late Future<ApiWidgetResponse> category; // مستقبل الفئة
+  ApiWidgetResponse? categoryResult;
 
   @override
   void initState() {
     super.initState();
     category = ApiManager().getCategoryListMovie(widget.categoryID)
-        as Future<CategoryDitailsResponse>; // استدعاء API لجلب الفئات
+        as Future<ApiWidgetResponse>; // استدعاء API لجلب الفئات
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text(
+        title: const Text(
           "Movie Category", // استخدام null-aware operator
-          style: const TextStyle(fontSize: 25),
+          style: TextStyle(fontSize: 25, color: Colors.amber),
         ),
       ),
       body: SafeArea(
@@ -61,7 +61,7 @@ class _CategoryMovieState extends State<CategoryMovie> {
             const SizedBox(
               height: 5,
             ),
-            FutureBuilder<CategoryDitailsResponse>(
+            FutureBuilder<ApiWidgetResponse>(
               future: category,
               builder: (context, snapshot) {
                 if (snapshot.hasError) {
@@ -114,7 +114,7 @@ class _CategoryMovieState extends State<CategoryMovie> {
                           child: Column(
                             children: [
                               ClipRRect(
-                                borderRadius: BorderRadius.circular(10),
+                                borderRadius: BorderRadius.circular(15),
                                 child: SizedBox(
                                   height: 225,
                                   width: 185,
@@ -133,9 +133,9 @@ class _CategoryMovieState extends State<CategoryMovie> {
                                 maxLines: 2,
                                 overflow: TextOverflow.ellipsis,
                                 style: const TextStyle(
-                                  fontSize: 16,
-                                  fontWeight: FontWeight.bold,
-                                ),
+                                    fontSize: 20,
+                                    // fontWeight: FontWeight.bold,
+                                    color: Colors.amber),
                                 textAlign: TextAlign.center,
                               ),
                             ],

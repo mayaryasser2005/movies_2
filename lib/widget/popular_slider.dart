@@ -4,13 +4,13 @@ import 'package:movies_2/firebase_model/firebase_functions.dart';
 import 'package:movies_2/firebase_model/movie_model.dart';
 import 'package:movies_2/utils/constant.dart';
 
-import '../API_model/popular.dart';
+import '../API_model/api_widget_response.dart';
 import '../screens/movie_details.dart';
 
 class PopularSlider extends StatelessWidget {
   const PopularSlider({super.key, required this.results});
 
-  final PopularResponse results;
+  final ApiWidgetResponse results;
   @override
   Widget build(BuildContext context) {
     return Column(
@@ -44,7 +44,7 @@ class PopularSlider extends StatelessWidget {
                 child: Stack(
                   children: [
                     ClipRRect(
-                        borderRadius: BorderRadius.circular(12),
+                        borderRadius: BorderRadius.circular(8),
                         child: SizedBox(
                             height: 300,
                             width: 400,
@@ -55,9 +55,9 @@ class PopularSlider extends StatelessWidget {
                     Container(
                       decoration: BoxDecoration(
                           color: Color.fromRGBO(43, 45, 48, 0.7),
-                          borderRadius: BorderRadius.circular(5)),
-                      width: 33,
-                      height: 33,
+                          borderRadius: BorderRadius.circular(8)),
+                      width: 40,
+                      height: 40,
                       child: IconButton(
                         onPressed: () {
                           MovieModel movie = MovieModel(

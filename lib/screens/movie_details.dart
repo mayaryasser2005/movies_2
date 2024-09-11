@@ -1,10 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:movies_2/widget/similar_slider.dart';
 
-import '../API_model/NewReleases.dart';
+import '../API_model/api_widget_response.dart';
 import '../API_model/movie_details.dart';
-import '../API_model/similar_movie.dart';
 import '../api_manager.dart';
 import '../firebase_model/firebase_functions.dart';
 import '../firebase_model/movie_model.dart';
@@ -26,9 +24,9 @@ class MovieDetails extends StatefulWidget {
 class _MovieDetailsState extends State<MovieDetails> {
   ApiManager apiManager = ApiManager();
   late Future<MovieDitalesResponse> movieDetails; // Correct future type
-  late Future<SimilarMovieResponse> sameMovies;
+  late Future<ApiWidgetResponse> sameMovies;
   late MovieDitalesResponse results;
-  late Future<NewReleasesResponse> NewReleases;
+  late Future<ApiWidgetResponse> NewReleases;
   @override
   void initState() {
     super.initState();
@@ -121,11 +119,8 @@ class _MovieDetailsState extends State<MovieDetails> {
                                 ),
                                 Container(
                                   margin: EdgeInsets.only(top: 35, left: 10),
-                                  decoration: BoxDecoration(
-                                      color: Colors.transparent,
-                                      borderRadius: BorderRadius.circular(75)),
                                   child: IconButton(
-                                    icon: Icon(
+                                    icon: const Icon(
                                       Icons.arrow_back,
                                       color: Colors.black,
                                       size: 35,
@@ -143,28 +138,32 @@ class _MovieDetailsState extends State<MovieDetails> {
                               child: Text(
                                 movie.originalTitle ?? 'Unknown',
                                 maxLines: 2,
-                                style: const TextStyle(fontSize: 25),
+                                style: const TextStyle(
+                                    fontSize: 25,
+                                    color: Colors.amber,
+                                    fontWeight: FontWeight.bold),
                               ),
                             ),
                             const SizedBox(height: 5),
                             Container(
-                              margin: EdgeInsets.only(left: 10),
+                              margin: const EdgeInsets.only(left: 10),
                               child: Text(
                                 releaseDate,
-                                style: TextStyle(color: Colors.grey),
+                                style: const TextStyle(color: Colors.grey),
                               ),
                             ),
+                            const SizedBox(height: 5),
                             Row(
                               children: [
                                 Stack(
                                   children: [
                                     ClipRRect(
-                                      borderRadius: BorderRadius.circular(50),
+                                      borderRadius: BorderRadius.circular(35),
                                       child: Padding(
                                         padding: const EdgeInsets.all(8.0),
                                         child: SizedBox(
                                           height: 230,
-                                          width: 125,
+                                          width: 150,
                                           child: movie.posterPath == null
                                               ? Image.asset(
                                                   "assets/image/movies.png")
@@ -183,12 +182,12 @@ class _MovieDetailsState extends State<MovieDetails> {
                                       padding: const EdgeInsets.all(8.0),
                                       child: Container(
                                         decoration: BoxDecoration(
-                                            color:
-                                                Color.fromRGBO(43, 45, 48, 0.7),
+                                            color: const Color.fromRGBO(
+                                                43, 45, 48, 0.7),
                                             borderRadius:
                                                 BorderRadius.circular(5)),
-                                        width: 33,
-                                        height: 33,
+                                        width: 38,
+                                        height: 38,
                                         child: IconButton(
                                           onPressed: () {
                                             MovieModel movies = MovieModel(
@@ -203,7 +202,7 @@ class _MovieDetailsState extends State<MovieDetails> {
                                             FirebaseFunctions.updateMovie(
                                                 movies);
                                           },
-                                          icon: Icon(
+                                          icon: const Icon(
                                             Icons.add,
                                             size: 20,
                                             color: Colors.white,
@@ -218,20 +217,22 @@ class _MovieDetailsState extends State<MovieDetails> {
                                   crossAxisAlignment: CrossAxisAlignment.start,
                                   children: [
                                     SizedBox(
-                                      width: 200,
+                                      width: 225,
                                       child: Text(
                                         genreText,
                                         style: const TextStyle(
-                                            fontSize: 15, color: Colors.grey),
+                                            fontSize: 15,
+                                            color: Colors.amber,
+                                            fontWeight: FontWeight.bold),
                                       ),
                                     ),
-                                    const SizedBox(height: 10),
+                                    const SizedBox(height: 15),
                                     SizedBox(
-                                      width: 250,
+                                      width: 225,
                                       child: Text(
                                         movie.overview ??
                                             'No overview available',
-                                        maxLines: 5,
+                                        maxLines: 6,
                                         overflow: TextOverflow.ellipsis,
                                         style: const TextStyle(fontSize: 20),
                                       ),
@@ -240,12 +241,13 @@ class _MovieDetailsState extends State<MovieDetails> {
                                 ),
                               ],
                             ),
-                            SizedBox(
+                            const SizedBox(
                               height: 10,
                             ),
                             Text("More like this",
-                                style: GoogleFonts.aBeeZee(fontSize: 25)),
-                            SizedBox(
+                                style: GoogleFonts.aBeeZee(
+                                    fontSize: 25, color: Colors.amber)),
+                            const SizedBox(
                               height: 10,
                             ),
                           ],
@@ -261,88 +263,20 @@ class _MovieDetailsState extends State<MovieDetails> {
               ],
             ),
 
-            FutureBuilder<SimilarMovieResponse>(
-              future: sameMovies,
-              builder: (context, snapshot) {
-                if (snapshot.hasError) {
-                  return Center(child: Text(snapshot.error.toString()));
-                } else if (snapshot.hasData) {
-                  // print("snapshot.data.results: ${snapshot.data?}");
-                  // التأكد من الوصول إلى 'results' في 'PopularResponse'
-                  return SimilarSlider(similarMovieResponse: snapshot.data!);
-                } else {
-                  return const Center(
-                      child: CircularProgressIndicator(
-                    color: Colors.amber,
-                  ));
-                }
-              },
-            ),
-            // FutureBuilder<SimilarMovieResponse>(
+            // FutureBuilder<ApiWidgetResponse>(
             //   future: sameMovies,
             //   builder: (context, snapshot) {
             //     if (snapshot.hasError) {
             //       return Center(child: Text(snapshot.error.toString()));
             //     } else if (snapshot.hasData) {
+            //       // print("snapshot.data.results: ${snapshot.data?}");
             //       // التأكد من الوصول إلى 'results' في 'PopularResponse'
-            //       return SizedBox(
-            //         height: 200,
-            //         width: double.infinity,
-            //         child: ListView.builder(
-            //           scrollDirection: Axis.horizontal,
-            //           physics: BouncingScrollPhysics(),
-            //           itemCount: 10,
-            //           // Adjust according to your data source
-            //           itemBuilder: (context, index) {
-            //             var movie = results.results?[index];
-            //             return InkWell(
-            //               onTap: () {
-            //                 Navigator.push(
-            //                   context,
-            //                   MaterialPageRoute(
-            //                     builder: (context) => MovieDetails(
-            //                       movieID: movie?.id ?? 0, // Ensure valid ID
-            //                     ),
-            //                   ),
-            //                 );
-            //               },
-            //               child:  Stack(
-            //                 children: [
-            //                   ClipRRect(
-            //                       borderRadius: BorderRadius.circular(8),
-            //                       child: SizedBox(
-            //                           height: 200,
-            //                           width: 150,
-            //                           child: Image.network(
-            //                               filterQuality: FilterQuality.high,
-            //                               fit: BoxFit.cover,
-            //                               "${Constant.imagePath}${results.results?[index].posterPath}"))),
-            //                   Container(
-            //                     decoration: BoxDecoration(
-            //                         color: Colors.grey,
-            //                         borderRadius: BorderRadius.circular(5)),
-            //                     width: 33,
-            //                     height: 33,
-            //                     child: IconButton(
-            //                       icon: Icon(
-            //                         Icons.add,
-            //                         size: 20,
-            //                         color: Colors.black,
-            //                       ),
-            //                       onPressed: () {},
-            //                     ),
-            //                   ),
-            //                 ],
-            //               ),
-            //             );
-            //           },
-            //         ),
-            //       );
+            //       return SimilarSlider(similarMovieResponse: snapshot.data!);
             //     } else {
             //       return const Center(
             //           child: CircularProgressIndicator(
-            //             color: Colors.amber,
-            //           ));
+            //         color: Colors.amber,
+            //       ));
             //     }
             //   },
             // ),

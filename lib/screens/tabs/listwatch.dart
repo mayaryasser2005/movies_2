@@ -23,11 +23,14 @@ class _ListWatchState extends State<ListWatch> {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             const SizedBox(
-              height: 50,
+              height: 25,
             ),
-            const Text(
-              "Watch List",
-              style: TextStyle(fontSize: 25),
+            Container(
+              margin: const EdgeInsets.only(left: 25),
+              child: const Text(
+                "Watch List",
+                style: TextStyle(fontSize: 25, color: Colors.amber),
+              ),
             ),
             const SizedBox(
               height: 20,
@@ -46,7 +49,9 @@ class _ListWatchState extends State<ListWatch> {
                   // التأكد من الوصول إلى 'results' في 'PopularResponse'
                   return Expanded(
                     child: ListView.separated(
-                      separatorBuilder: (context, index) => Divider(),
+                      separatorBuilder: (context, index) => SizedBox(
+                        height: 10,
+                      ),
                       itemCount: movies.length,
                       // Check if results are null
                       itemBuilder: (context, index) {
@@ -76,7 +81,7 @@ class _ListWatchState extends State<ListWatch> {
                                   spacing: 8,
                                   backgroundColor: Colors.redAccent,
                                   padding: EdgeInsets.zero,
-                                  borderRadius: BorderRadius.only(
+                                  borderRadius: const BorderRadius.only(
                                       topLeft: Radius.circular(25),
                                       bottomLeft: Radius.circular(25)),
                                 )
@@ -87,11 +92,11 @@ class _ListWatchState extends State<ListWatch> {
                                 Stack(
                                   children: [
                                     ClipRRect(
-                                      borderRadius: BorderRadius.circular(50),
+                                      borderRadius: BorderRadius.circular(35),
                                       child: Padding(
                                         padding: const EdgeInsets.all(8.0),
                                         child: SizedBox(
-                                          height: 100,
+                                          height: 225,
                                           width: 175,
                                           child: Image.network(
                                             filterQuality: FilterQuality.high,
@@ -102,17 +107,19 @@ class _ListWatchState extends State<ListWatch> {
                                       ),
                                     ),
                                     Container(
+                                      margin: EdgeInsets.only(left: 8, top: 8),
                                       decoration: BoxDecoration(
-                                          color: Colors.grey,
+                                          color:
+                                              Color.fromRGBO(43, 45, 48, 0.7),
                                           borderRadius:
                                               BorderRadius.circular(5)),
-                                      width: 33,
-                                      height: 33,
+                                      width: 40,
+                                      height: 40,
                                       child: IconButton(
-                                        icon: Icon(
+                                        icon: const Icon(
                                           Icons.add,
                                           size: 20,
-                                          color: Colors.black,
+                                          color: Colors.white,
                                         ),
                                         onPressed: () {},
                                       ),
@@ -124,30 +131,33 @@ class _ListWatchState extends State<ListWatch> {
                                   children: [
                                     SizedBox(
                                       width: 200,
+                                      height: 35,
                                       child: Text(
                                         movies[index].title,
-                                        maxLines: 1,
+                                        maxLines: 3,
                                         overflow: TextOverflow.ellipsis,
-                                        style: const TextStyle(fontSize: 20),
+                                        style: const TextStyle(
+                                            fontSize: 25, color: Colors.amber),
                                       ),
                                     ),
                                     SizedBox(
                                       width: 200,
+                                      height: 25,
                                       child: Text(
                                         movies[index].date,
                                         overflow: TextOverflow.ellipsis,
                                         style: const TextStyle(
-                                            fontSize: 13, color: Colors.grey),
+                                            fontSize: 15, color: Colors.grey),
                                       ),
                                     ),
                                     SizedBox(
                                       width: 200,
                                       child: Text(
                                         movies[index].description,
-                                        maxLines: 1,
+                                        maxLines: 2,
                                         overflow: TextOverflow.ellipsis,
                                         style: const TextStyle(
-                                            fontSize: 13, color: Colors.grey),
+                                            fontSize: 15, color: Colors.grey),
                                       ),
                                     ),
                                   ],
