@@ -7,12 +7,11 @@ import '../screens/movie_details.dart';
 import '../utils/constant.dart';
 
 class NewReleasesSlider extends StatelessWidget {
-  const NewReleasesSlider({super.key, required this.results});
+  NewReleasesSlider({super.key, required this.results});
 
   final NewReleasesResponse results;
   @override
   Widget build(BuildContext context) {
-    MovieModel movieModel;
     return SizedBox(
       height: 200,
       width: double.infinity,
@@ -49,9 +48,9 @@ class NewReleasesSlider extends StatelessWidget {
                                     .posterPath}")
                         )
                     ),
-                    movieModel.isDone ??
-                        Icon(Icons.done, color: Colors.amber,)
-                        :
+                    // widget.movieModel.isDone ?
+                    //     Icon(Icons.done, color: Colors.amber,)
+                    //     :
                     Container(
                       decoration: BoxDecoration(
                           color: Color.fromRGBO(43, 45, 48, 0.7),

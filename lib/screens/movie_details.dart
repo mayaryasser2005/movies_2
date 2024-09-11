@@ -6,6 +6,8 @@ import '../API_model/NewReleases.dart';
 import '../API_model/movie_details.dart';
 import '../API_model/similar_movie.dart';
 import '../api_manager.dart';
+import '../firebase_model/firebase_functions.dart';
+import '../firebase_model/movie_model.dart';
 import '../utils/constant.dart';
 
 class MovieDetails extends StatefulWidget {
@@ -25,21 +27,41 @@ class _MovieDetailsState extends State<MovieDetails> {
   ApiManager apiManager = ApiManager();
   late Future<MovieDitalesResponse> movieDetails; // Correct future type
   late Future<SimilarMovieResponse> sameMovies;
-  late SimilarMovieResponse results;
+  late MovieDitalesResponse results;
   late Future<NewReleasesResponse> NewReleases;
   @override
   void initState() {
     super.initState();
     fetchInitialData();
-    NewReleases = ApiManager().getRecent() as Future<NewReleasesResponse>;
+    NewReleases = ApiManager().getRecent();
   }
 
-  fetchInitialData() {
-    // Assign the correct future for movie details
-    //
-    sameMovies = apiManager.getSimilarMovies(results.results.id);
+  fetchInitialData() async {
+    // Fetch the movie details first
     movieDetails = apiManager.getMovieDetails(widget.movieID);
+    results = await movieDetails;
+
+    // Once movieDetails is fetched, get the similar movies
+    if (results.belongsToCollection != null) {
+      sameMovies =
+          apiManager.getSimilarMovies(results.belongsToCollection!.id as num);
+    } else {
+      sameMovies = Future.value(SimilarMovieResponse(
+          results: [])); // Handle case where there's no collection
+    }
+
+    // Trigger UI rebuild after fetching the data
+    setState(() {});
   }
+
+  // fetchInitialData() {
+  //
+  //   // for(int i = 0;i < results!.belongsToCollection.;i++){
+  //     sameMovies = apiManager.getSimilarMovies(results?.belongsToCollection!.id as num);
+  //   // }
+  //
+  //   movieDetails = apiManager.getMovieDetails(widget.movieID);
+  // }
 
   @override
   Widget build(BuildContext context) {
@@ -163,18 +185,31 @@ class _MovieDetailsState extends State<MovieDetails> {
                                       padding: const EdgeInsets.all(8.0),
                                       child: Container(
                                         decoration: BoxDecoration(
-                                            color: Colors.grey,
+                                            color:
+                                                Color.fromRGBO(43, 45, 48, 0.7),
                                             borderRadius:
                                                 BorderRadius.circular(5)),
                                         width: 33,
                                         height: 33,
                                         child: IconButton(
+                                          onPressed: () {
+                                            MovieModel movies = MovieModel(
+                                              title: "${movie.originalTitle}",
+                                              description: "${movie.overview}",
+                                              date: "${movie.releaseDate}",
+                                              image: "${movie.posterPath}",
+                                              id: movie.id as int,
+                                            );
+                                            FirebaseFunctions.addMovie(movies);
+                                            movies.isDone = true;
+                                            FirebaseFunctions.updateMovie(
+                                                movies);
+                                          },
                                           icon: Icon(
                                             Icons.add,
                                             size: 20,
-                                            color: Colors.black,
+                                            color: Colors.white,
                                           ),
-                                          onPressed: () {},
                                         ),
                                       ),
                                     ),
@@ -235,8 +270,7 @@ class _MovieDetailsState extends State<MovieDetails> {
                   return Center(child: Text(snapshot.error.toString()));
                 } else if (snapshot.hasData) {
                   // التأكد من الوصول إلى 'results' في 'PopularResponse'
-                  return SimilarSlider(
-                      results: snapshot.data as SimilarMovieResponse);
+                  return SimilarSlider(results: snapshot.data!);
                 } else {
                   return const Center(
                       child: CircularProgressIndicator(

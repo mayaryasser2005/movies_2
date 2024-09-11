@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:movies_2/api_manager.dart';
+import 'package:movies_2/firebase_model/movie_model.dart';
 import 'package:movies_2/screens/tabs/search.dart';
 
 import '../../API_model/NewReleases.dart';
@@ -33,6 +34,7 @@ class _HomeTabState extends State<HomeTab> {
 
   @override
   Widget build(BuildContext context) {
+    MovieModel movieModel;
     return Scaffold(
       appBar: AppBar(
         title: const Text(
@@ -82,12 +84,15 @@ class _HomeTabState extends State<HomeTab> {
               FutureBuilder<NewReleasesResponse>(
                 future: NewReleases,
                 builder: (context, snapshot) {
+                  MovieModel? movieModel;
                   if (snapshot.hasError) {
                     return Center(child: Text(snapshot.error.toString()));
                   } else if (snapshot.hasData) {
                     // التأكد من الوصول إلى 'results' في 'PopularResponse'
+
                     return NewReleasesSlider(
-                        results: snapshot.data as NewReleasesResponse);
+                      results: snapshot.data as NewReleasesResponse,
+                    );
                   } else {
                     return const Center(
                         child: CircularProgressIndicator(
