@@ -3,9 +3,9 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:movies_2/api_manager.dart';
 import 'package:movies_2/screens/tabs/search.dart';
 
-import '../../model/NewReleases.dart';
-import '../../model/Recomended.dart';
-import '../../model/popular.dart';
+import '../../API_model/NewReleases.dart';
+import '../../API_model/Recomended.dart';
+import '../../API_model/popular.dart';
 import '../../widget/New_Releases.dart';
 import '../../widget/Recomended.dart';
 import '../../widget/popular_slider.dart';

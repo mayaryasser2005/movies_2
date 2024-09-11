@@ -1,9 +1,7 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
-import '../model/NewReleases.dart';
+import '../API_model/NewReleases.dart';
 import '../screens/movie_details.dart';
-import '../screens/tabs/listwatch.dart';
 import '../utils/constant.dart';
 
 class NewReleasesSlider extends StatelessWidget {
@@ -18,8 +16,8 @@ class NewReleasesSlider extends StatelessWidget {
       width: double.infinity,
       child: ListView.builder(
           scrollDirection: Axis.horizontal,
-          physics: BouncingScrollPhysics(),
-          itemCount: 10,
+          physics: const BouncingScrollPhysics(),
+          itemCount: results.results?.length,
           itemBuilder: (context ,index){
             var movie = results.results?[index];
             return Padding(

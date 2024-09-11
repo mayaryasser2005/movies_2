@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:movies_2/screens/movie_details.dart';
 
+import '../API_model/category.dart';
+import '../API_model/category_ditails.dart';
 import '../api_manager.dart';
-import '../model/category.dart';
-import '../model/category_ditails.dart';
 import '../utils/constant.dart';
 
 class CategoryMovie extends StatefulWidget {

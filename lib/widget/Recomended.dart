@@ -1,7 +1,6 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
-import '../model/Recomended.dart';
+import '../API_model/Recomended.dart';
 import '../screens/movie_details.dart';
 import '../utils/constant.dart';
 
@@ -17,7 +16,7 @@ class RecomendedSlider extends StatelessWidget {
       child: ListView.builder(
           scrollDirection: Axis.horizontal,
           physics: BouncingScrollPhysics(),
-          itemCount: 10,
+          itemCount: results.results?.length,
           itemBuilder: (context ,index){
             var movie = results.results?[index];
             return Padding(

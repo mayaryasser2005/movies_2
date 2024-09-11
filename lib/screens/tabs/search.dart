@@ -2,8 +2,8 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:movies_2/screens/movie_details.dart';
 
+import '../../API_model/search.dart';
 import '../../api_manager.dart';
-import '../../model/search.dart';
 import '../../utils/constant.dart';
 
 class Search extends StatefulWidget {

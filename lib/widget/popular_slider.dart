@@ -1,8 +1,8 @@
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
-import 'package:movies_2/model/popular.dart';
 import 'package:movies_2/utils/constant.dart';
 
+import '../API_model/popular.dart';
 import '../screens/movie_details.dart';
 
 class PopularSlider extends StatelessWidget {
@@ -17,7 +17,7 @@ class PopularSlider extends StatelessWidget {
           height: 300,
           width: double.infinity,
           child: CarouselSlider.builder(
-            itemCount: 10,
+            itemCount: results.results?.length,
             options: CarouselOptions(
               height: 300,
               autoPlay: true,

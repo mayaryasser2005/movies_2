@@ -1,16 +1,14 @@
 import 'dart:convert';
-
 import 'package:http/http.dart' as http;
-import 'package:movies_2/model/movie_details.dart';
-import 'package:movies_2/model/similar_movie.dart';
 import 'package:movies_2/utils/constant.dart';
-
-import 'model/NewReleases.dart';
-import 'model/Recomended.dart';
-import 'model/category.dart';
-import 'model/category_ditails.dart';
-import 'model/popular.dart';
-import 'model/search.dart';
+import 'API_model/NewReleases.dart';
+import 'API_model/Recomended.dart';
+import 'API_model/category.dart';
+import 'API_model/category_ditails.dart';
+import 'API_model/movie_details.dart';
+import 'API_model/popular.dart';
+import 'API_model/search.dart';
+import 'API_model/similar_movie.dart';
 
 class ApiManager {
   static const Map<String, String> headers = {

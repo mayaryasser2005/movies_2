@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:movies_2/model/category.dart';
 
+import '../../API_model/category.dart';
 import '../../api_manager.dart';
 import '../../widget/category_item.dart';
 

@@ -1,6 +1,6 @@
 import 'package:flutter/cupertino.dart';
 
-import '../model/similar_movie.dart';
+import '../API_model/similar_movie.dart';
 import '../utils/constant.dart';
 
 class SimilarSlider extends StatelessWidget {
@@ -15,8 +15,8 @@ class SimilarSlider extends StatelessWidget {
       width: double.infinity,
       child: ListView.builder(
           scrollDirection: Axis.horizontal,
-          physics: BouncingScrollPhysics(),
-          itemCount: 10,
+          physics: const BouncingScrollPhysics(),
+          itemCount: results.results?.length,
           itemBuilder: (context, index) {
             return Padding(
               padding: const EdgeInsets.all(8.0),

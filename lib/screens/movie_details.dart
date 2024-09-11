@@ -1,14 +1,21 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 
+import '../API_model/NewReleases.dart';
+import '../API_model/movie_details.dart';
+import '../API_model/similar_movie.dart';
 import '../api_manager.dart';
-import '../model/movie_details.dart';
 import '../utils/constant.dart';
+import '../widget/New_Releases.dart';
 
 class MovieDetails extends StatefulWidget {
   final int movieID;
 
-  const MovieDetails({super.key, required this.movieID});
+  // final int sameMovieID;
+  const MovieDetails({
+    super.key,
+    required this.movieID,
+  });
 
   @override
   State<MovieDetails> createState() => _MovieDetailsState();
@@ -17,15 +24,20 @@ class MovieDetails extends StatefulWidget {
 class _MovieDetailsState extends State<MovieDetails> {
   ApiManager apiManager = ApiManager();
   late Future<MovieDitalesResponse> movieDetails; // Correct future type
-
+  late Future<SimilarMovieResponse> sameMovies;
+  late SimilarMovieResponse results;
+  late Future<NewReleasesResponse> NewReleases;
   @override
   void initState() {
     super.initState();
     fetchInitialData();
+    NewReleases = ApiManager().getRecent() as Future<NewReleasesResponse>;
   }
 
   fetchInitialData() {
     // Assign the correct future for movie details
+    //
+    // sameMovies = apiManager.getSimilarMovies(results.results.);
     movieDetails = apiManager.getMovieDetails(widget.movieID);
   }
 
@@ -38,9 +50,6 @@ class _MovieDetailsState extends State<MovieDetails> {
             Stack(
               children: [
                 Container(
-                  // decoration: const BoxDecoration(
-                  //   color: Colors.black12, // Default background color
-                  // ),
                   child: FutureBuilder<MovieDitalesResponse>(
                     future: movieDetails,
                     builder: (context, snapshot) {
@@ -206,37 +215,6 @@ class _MovieDetailsState extends State<MovieDetails> {
                             SizedBox(
                               height: 10,
                             ),
-                            SizedBox(
-                              height: 200,
-                              width: double.infinity,
-                              child: ListView.builder(
-                                scrollDirection: Axis.horizontal,
-                                physics: BouncingScrollPhysics(),
-                                itemCount: 10,
-                                // Adjust according to your data source
-                                itemBuilder: (context, index) {
-                                  return Padding(
-                                    padding: const EdgeInsets.all(8.0),
-                                    child: ClipRRect(
-                                      borderRadius: BorderRadius.circular(8),
-                                      child: Container(
-                                        width: 150,
-                                        color: Colors.amber,
-                                        // Placeholder color
-                                        child: Center(
-                                          child: Text(
-                                            'Item $index',
-                                            // Replace with actual content
-                                            style:
-                                                const TextStyle(fontSize: 18),
-                                          ),
-                                        ),
-                                      ),
-                                    ),
-                                  );
-                                },
-                              ),
-                            )
                           ],
                         );
                       } else {
@@ -249,6 +227,92 @@ class _MovieDetailsState extends State<MovieDetails> {
                 ),
               ],
             ),
+
+            FutureBuilder<NewReleasesResponse>(
+              future: NewReleases,
+              builder: (context, snapshot) {
+                if (snapshot.hasError) {
+                  return Center(child: Text(snapshot.error.toString()));
+                } else if (snapshot.hasData) {
+                  // التأكد من الوصول إلى 'results' في 'PopularResponse'
+                  return NewReleasesSlider(
+                      results: snapshot.data as NewReleasesResponse);
+                } else {
+                  return const Center(
+                      child: CircularProgressIndicator(
+                    color: Colors.amber,
+                  ));
+                }
+              },
+            ),
+            // FutureBuilder<SimilarMovieResponse>(
+            //   future: sameMovies,
+            //   builder: (context, snapshot) {
+            //     if (snapshot.hasError) {
+            //       return Center(child: Text(snapshot.error.toString()));
+            //     } else if (snapshot.hasData) {
+            //       // التأكد من الوصول إلى 'results' في 'PopularResponse'
+            //       return SizedBox(
+            //         height: 200,
+            //         width: double.infinity,
+            //         child: ListView.builder(
+            //           scrollDirection: Axis.horizontal,
+            //           physics: BouncingScrollPhysics(),
+            //           itemCount: 10,
+            //           // Adjust according to your data source
+            //           itemBuilder: (context, index) {
+            //             var movie = results.results?[index];
+            //             return InkWell(
+            //               onTap: () {
+            //                 Navigator.push(
+            //                   context,
+            //                   MaterialPageRoute(
+            //                     builder: (context) => MovieDetails(
+            //                       movieID: movie?.id ?? 0, // Ensure valid ID
+            //                     ),
+            //                   ),
+            //                 );
+            //               },
+            //               child:  Stack(
+            //                 children: [
+            //                   ClipRRect(
+            //                       borderRadius: BorderRadius.circular(8),
+            //                       child: SizedBox(
+            //                           height: 200,
+            //                           width: 150,
+            //                           child: Image.network(
+            //                               filterQuality: FilterQuality.high,
+            //                               fit: BoxFit.cover,
+            //                               "${Constant.imagePath}${results.results?[index].posterPath}"))),
+            //                   Container(
+            //                     decoration: BoxDecoration(
+            //                         color: Colors.grey,
+            //                         borderRadius: BorderRadius.circular(5)),
+            //                     width: 33,
+            //                     height: 33,
+            //                     child: IconButton(
+            //                       icon: Icon(
+            //                         Icons.add,
+            //                         size: 20,
+            //                         color: Colors.black,
+            //                       ),
+            //                       onPressed: () {},
+            //                     ),
+            //                   ),
+            //                 ],
+            //               ),
+            //             );
+            //           },
+            //         ),
+            //       );
+            //     } else {
+            //       return const Center(
+            //           child: CircularProgressIndicator(
+            //             color: Colors.amber,
+            //           ));
+            //     }
+            //   },
+            // ),
           ],
         ),
       ),
