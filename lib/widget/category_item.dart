@@ -45,52 +45,49 @@ class _CategoryItemState extends State<CategoryItem> {
             return Center(child: Text("No categories found"));
           }
 
-          // عرض البيانات باستخدام ListView.builder
+          // عرض البيانات باستخدام GridView.builder
           return Expanded(
-            child: ListView.separated(
-              separatorBuilder: (context, index) => Divider(),
-              itemCount: listCategory!.genres!.length, ////////////////
+            child: GridView.builder(
+              gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+                crossAxisCount: 2, // Number of columns
+                childAspectRatio: 1.2, // Adjust the size of grid items
+                mainAxisSpacing: 10,
+                crossAxisSpacing: 20,
+              ),
+              padding: const EdgeInsets.all(10),
+              itemCount: listCategory!.genres!.length, // عدد العناصر
               itemBuilder: (context, index) {
-                var movie = listCategory?.genres?[index]; ///////////////
-                var genre = listCategory!.genres![index]; /////////////////////
-                return Row(
-                  mainAxisAlignment: MainAxisAlignment.start,
-                  children: [
-                    Padding(
-                      padding: const EdgeInsets.all(20.0),
-                      child: InkWell(
-                        onTap: () {
-                          Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                              builder: (context) => CategoryMovie(
-                                categoryID: movie?.id ?? 0, // Ensure valid ID
-                              ),
-                            ),
-                          );
-                        },
-                        child: Row(
-                          children: [
-                            ClipRRect(
-                              borderRadius: BorderRadius.circular(10),
-                              child: Image.asset(
-                                "assets/image/${genre.id}.jpg",
-                                // استخدام genre.id
-                                height: 100,
-                                width: 160,
-                                fit: BoxFit.cover,
-                              ),
-                            ),
-                            SizedBox(width: 20),
-                            Text(
-                              genre.name ?? "Unknown Category", // عرض اسم الفئة
-                              style: TextStyle(fontSize: 22),
-                            ),
-                          ],
+                var movie = listCategory?.genres?[index]; // Get the movie genre
+                var genre = listCategory!.genres![index]; // Get genre data
+                return InkWell(
+                  onTap: () {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) => CategoryMovie(
+                          categoryID: movie?.id ?? 0, // Ensure valid ID
                         ),
                       ),
-                    ),
-                  ],
+                    );
+                  },
+                  child: Column(
+                    children: [
+                      ClipRRect(
+                        borderRadius: BorderRadius.circular(10),
+                        child: Image.asset(
+                          "assets/image/${genre.id}.jpg", // استخدام genre.id
+                          height: 100,
+                          width: 160,
+                          fit: BoxFit.cover,
+                        ),
+                      ),
+                      const SizedBox(height: 5),
+                      Text(
+                        genre.name ?? "Unknown Category", // عرض اسم الفئة
+                        style: const TextStyle(fontSize: 18),
+                      ),
+                    ],
+                  ),
                 );
               },
             ),

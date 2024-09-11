@@ -51,10 +51,10 @@ class _SearchState extends State<Search> {
                 controller: searchController,
                 prefixIcon: Icon(
                   Icons.search,
-                  color: Colors.grey,
+                  color: Colors.amber,
                   size: 25,
                 ),
-                suffixIcon: Icon(Icons.cancel, color: Colors.grey),
+                suffixIcon: Icon(Icons.cancel, color: Colors.amber),
                 style: TextStyle(color: Colors.white),
                 backgroundColor: Colors.grey.withOpacity(0.3),
                 onChanged: (value) {

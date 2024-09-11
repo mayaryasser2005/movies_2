@@ -4,9 +4,9 @@ import '../API_model/similar_movie.dart';
 import '../utils/constant.dart';
 
 class SimilarSlider extends StatelessWidget {
-  const SimilarSlider({super.key, required this.results});
+  const SimilarSlider({super.key, required this.similarMovieResponse});
 
-  final SimilarMovieResponse results;
+  final SimilarMovieResponse similarMovieResponse;
 
   @override
   Widget build(BuildContext context) {
@@ -16,8 +16,9 @@ class SimilarSlider extends StatelessWidget {
       child: ListView.builder(
           scrollDirection: Axis.horizontal,
           physics: const BouncingScrollPhysics(),
-          itemCount: results.results?.length,
+          itemCount: similarMovieResponse.results?.length,
           itemBuilder: (context, index) {
+            print("test: ${similarMovieResponse.results}");
             return Padding(
               padding: const EdgeInsets.all(8.0),
               child: ClipRRect(
@@ -28,7 +29,7 @@ class SimilarSlider extends StatelessWidget {
                       child: Image.network(
                           filterQuality: FilterQuality.high,
                           fit: BoxFit.cover,
-                          "${Constant.imagePath}${results.results?[index].posterPath}"))),
+                          "${Constant.imagePath}${similarMovieResponse.results?[index].posterPath}"))),
             );
           }),
     );

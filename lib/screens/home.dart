@@ -1,5 +1,3 @@
-import 'package:carousel_slider/carousel_slider.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:movies_2/screens/tabs/Home.dart';
 import 'package:movies_2/screens/tabs/browse.dart';
@@ -33,8 +31,12 @@ class _HomeState extends State<Home> {
           // backgroundColor: AppColors.primary,
           items: const [
             BottomNavigationBarItem(icon: Icon(Icons.home), label: "Home"),
-            BottomNavigationBarItem(icon: Icon(Icons.search), label: "Search"),
-            BottomNavigationBarItem(
+              BottomNavigationBarItem(
+                  icon: Icon(
+                    Icons.search,
+                  ),
+                  label: "Search"),
+              BottomNavigationBarItem(
                 icon: Icon(Icons.movie_creation_rounded), label: "Browse"),
             BottomNavigationBarItem(
                 icon: Icon(Icons.movie_creation_rounded), label: "ListWatch"),

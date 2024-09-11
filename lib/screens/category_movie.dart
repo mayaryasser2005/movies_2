@@ -22,7 +22,6 @@ class CategoryMovie extends StatefulWidget {
 class _CategoryMovieState extends State<CategoryMovie> {
   Genres? genres;
   late Future<CategoryDitailsResponse> category; // مستقبل الفئة
-  CategoriesResponse? listCategory; // جعل listCategory قابلاً لأن يكون null
   CategoryDitailsResponse? categoryResult;
 
   @override
@@ -31,118 +30,131 @@ class _CategoryMovieState extends State<CategoryMovie> {
     category = ApiManager().getCategoryListMovie(widget.categoryID)
         as Future<CategoryDitailsResponse>; // استدعاء API لجلب الفئات
   }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
         title: Text(
-          "MovieCategory", // استخدام null-aware operator
+          "Movie Category", // استخدام null-aware operator
           style: const TextStyle(fontSize: 25),
         ),
       ),
       body: SafeArea(
-        child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
-          const SizedBox(
-            height: 50,
-          ),
-          const SizedBox(
-            height: 20,
-          ),
-          FutureBuilder<CategoryDitailsResponse>(
-            future: category,
-            builder: (context, snapshot) {
-              if (snapshot.hasError) {
-                return Center(child: Text(snapshot.error.toString()));
-              } else if (snapshot.connectionState == ConnectionState.waiting) {
-                return const Center(
-                    child: CircularProgressIndicator(
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            const SizedBox(
+              height: 10,
+            ),
+            Container(
+              margin: const EdgeInsets.only(left: 15),
+              child: const Text(
+                "Kemo",
+                style: TextStyle(
+                  fontSize: 35,
                   color: Colors.amber,
-                ));
-              } else if (snapshot.hasData) {
-                // تعيين البيانات إلى listCategory عند استرجاع البيانات
-                categoryResult = snapshot.data;
+                  fontWeight: FontWeight.bold,
+                ),
+              ),
+            ),
+            const SizedBox(
+              height: 5,
+            ),
+            FutureBuilder<CategoryDitailsResponse>(
+              future: category,
+              builder: (context, snapshot) {
+                if (snapshot.hasError) {
+                  return Center(child: Text(snapshot.error.toString()));
+                } else if (snapshot.connectionState ==
+                    ConnectionState.waiting) {
+                  return const Center(
+                    child: CircularProgressIndicator(
+                      color: Colors.amber,
+                    ),
+                  );
+                } else if (snapshot.hasData) {
+                  categoryResult = snapshot.data;
 
-                //التحقق من وجود بيانات
-                if (categoryResult?.results == null ||
-                    categoryResult!.results!.isEmpty) {
-                  return const Center(child: Text("No Movies found"));
-                }
+                  // التحقق من وجود بيانات
+                  if (categoryResult?.results == null ||
+                      categoryResult!.results!.isEmpty) {
+                    return const Center(child: Text("No Movies found"));
+                  }
 
-                // عرض البيانات باستخدام ListView.builder
-                return Expanded(
-                  child: ListView.separated(
-                    separatorBuilder: (context, index) => Divider(),
-                    itemCount: categoryResult?.results?.length ?? 0,
-                    // التحقق من null
-                    itemBuilder: (context, index) {
-                      var movie =
-                          categoryResult?.results?[index]; // التحقق من null
-                      // if (movie == null) {
-                      //   return const SizedBox(); // التعامل مع حالة null
-                      // }
+                  // عرض البيانات باستخدام GridView.builder
+                  return Expanded(
+                    child: GridView.builder(
+                      gridDelegate:
+                          const SliverGridDelegateWithFixedCrossAxisCount(
+                        crossAxisCount: 2,
+                        // عدد الأعمدة
+                        childAspectRatio: 0.6,
+                        // نسبة العرض إلى الارتفاع للعناصر
+                        mainAxisSpacing: 10,
+                        crossAxisSpacing: 25,
+                      ),
+                      padding: const EdgeInsets.all(10),
+                      itemCount: categoryResult?.results?.length ?? 0,
+                      // التحقق من null
+                      itemBuilder: (context, index) {
+                        var movie = categoryResult?.results?[index];
 
-                      return Row(
-                        mainAxisAlignment: MainAxisAlignment.start,
-                        children: [
-                          Padding(
-                            padding: const EdgeInsets.all(20.0),
-                            child: InkWell(
-                              onTap: () {
-                                Navigator.push(
-                                  context,
-                                  MaterialPageRoute(
-                                    builder: (context) => MovieDetails(
-                                      movieID:
-                                          movie?.id ?? 0, // Ensure valid ID
-                                    ),
-                                  ),
-                                );
-                              },
-                              child: Row(
-                                children: [
-                                  ClipRRect(
-                                    borderRadius: BorderRadius.circular(10),
-                                    child: SizedBox(
-                                      height: 100,
-                                      width: 175,
-                                      child: movie?.backdropPath == null
-                                          ? Image.asset(
-                                              "assets/image/movies.png")
-                                          : Image.network(
-                                              filterQuality: FilterQuality.high,
-                                              fit: BoxFit.cover,
-                                              "${Constant.imagePath}${movie?.posterPath}",
-                                            ),
-                                    ),
-                                  ),
-                                  SizedBox(width: 10),
-                                  SizedBox(
-                                    width: 150,
-                                    child: Text(
-                                      movie?.originalTitle ?? 'Unknown',
-                                      maxLines: 2,
-                                      overflow: TextOverflow.ellipsis,
-                                      style: TextStyle(fontSize: 20),
-                                    ),
-                                  )
-                                ],
+                        return InkWell(
+                          onTap: () {
+                            Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                builder: (context) => MovieDetails(
+                                  movieID: movie?.id ?? 0, // Ensure valid ID
+                                ),
                               ),
-                            ),
+                            );
+                          },
+                          child: Column(
+                            children: [
+                              ClipRRect(
+                                borderRadius: BorderRadius.circular(10),
+                                child: SizedBox(
+                                  height: 225,
+                                  width: 185,
+                                  child: movie?.backdropPath == null
+                                      ? Image.asset("assets/image/movies.png")
+                                      : Image.network(
+                                          filterQuality: FilterQuality.high,
+                                          fit: BoxFit.cover,
+                                          "${Constant.imagePath}${movie?.posterPath}",
+                                        ),
+                                ),
+                              ),
+                              const SizedBox(height: 10),
+                              Text(
+                                movie?.originalTitle ?? 'Unknown',
+                                maxLines: 2,
+                                overflow: TextOverflow.ellipsis,
+                                style: const TextStyle(
+                                  fontSize: 16,
+                                  fontWeight: FontWeight.bold,
+                                ),
+                                textAlign: TextAlign.center,
+                              ),
+                            ],
                           ),
-                        ],
-                      );
-                    },
-                  ),
-                );
-              } else {
-                return const Center(
+                        );
+                      },
+                    ),
+                  );
+                } else {
+                  return const Center(
                     child: CircularProgressIndicator(
-                  color: Colors.amber,
-                ));
-              }
-            },
-          )
-        ]),
+                      color: Colors.amber,
+                    ),
+                  );
+                }
+              },
+            ),
+          ],
+        ),
       ),
     );
   }

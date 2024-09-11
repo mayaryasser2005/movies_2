@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_slidable/flutter_slidable.dart';
 import 'package:movies_2/firebase_model/firebase_functions.dart';
-import 'package:movies_2/firebase_model/movie_model.dart';
 
 import '../../utils/constant.dart';
 import '../movie_details.dart';
@@ -16,7 +15,6 @@ class ListWatch extends StatefulWidget {
 }
 
 class _ListWatchState extends State<ListWatch> {
-  late MovieModel movieModel;
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -71,7 +69,7 @@ class _ListWatchState extends State<ListWatch> {
                               children: [
                                 SlidableAction(
                                   onPressed: (context) {
-                                    FirebaseFunctions.deleteTask(movieModel.id);
+                                    // FirebaseFunctions.deleteTask(movieModel.id as int );
                                   },
                                   label: "Delete",
                                   icon: Icons.delete,

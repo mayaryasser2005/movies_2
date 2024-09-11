@@ -1,6 +1,8 @@
 import 'dart:convert';
+
 import 'package:http/http.dart' as http;
 import 'package:movies_2/utils/constant.dart';
+
 import 'API_model/NewReleases.dart';
 import 'API_model/Recomended.dart';
 import 'API_model/category.dart';
@@ -75,10 +77,13 @@ class ApiManager {
   }
 
   Future<SimilarMovieResponse> getSimilarMovies(num samemovieID) async {
+    print("70-getSimilarMovies ${samemovieID}");
     Uri url = Uri.https(Constant.BaseURL, "/3/movie/$samemovieID/similar",
         {"language": "en_US"});
+    print("70: ${url.toString()}");
     var response = await http.get(url, headers: headers);
     var json = jsonDecode(response.body);
+    print("83- json: ${json} ");
     SimilarMovieResponse similar = SimilarMovieResponse.fromJson(json);
     return similar;
   }

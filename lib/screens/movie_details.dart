@@ -37,20 +37,18 @@ class _MovieDetailsState extends State<MovieDetails> {
   }
 
   fetchInitialData() async {
-    // Fetch the movie details first
     movieDetails = apiManager.getMovieDetails(widget.movieID);
     results = await movieDetails;
 
-    // Once movieDetails is fetched, get the similar movies
-    if (results.belongsToCollection != null) {
-      sameMovies =
-          apiManager.getSimilarMovies(results.belongsToCollection!.id as num);
-    } else {
-      sameMovies = Future.value(SimilarMovieResponse(
-          results: [])); // Handle case where there's no collection
-    }
+    // if (results.belongsToCollection != null) {
+    //
+    // } else {
+    //   sameMovies = Future.value(SimilarMovieResponse(
+    //       results: []));
+    // }
 
-    // Trigger UI rebuild after fetching the data
+    sameMovies =
+        apiManager.getSimilarMovies(results.belongsToCollection!.id as num);
     setState(() {});
   }
 
@@ -269,8 +267,9 @@ class _MovieDetailsState extends State<MovieDetails> {
                 if (snapshot.hasError) {
                   return Center(child: Text(snapshot.error.toString()));
                 } else if (snapshot.hasData) {
+                  // print("snapshot.data.results: ${snapshot.data?}");
                   // التأكد من الوصول إلى 'results' في 'PopularResponse'
-                  return SimilarSlider(results: snapshot.data!);
+                  return SimilarSlider(similarMovieResponse: snapshot.data!);
                 } else {
                   return const Center(
                       child: CircularProgressIndicator(

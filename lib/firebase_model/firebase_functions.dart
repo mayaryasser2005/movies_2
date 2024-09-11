@@ -33,6 +33,19 @@ class FirebaseFunctions {
     //     .snapshots();
   }
 
+  static Future<bool> isMovieInWatchList(String movieId) async {
+    var moviewQuery = await getMovie();
+    for (var doc in moviewQuery.docs) {
+      if (movieId == doc.data().id) {
+        return true;
+      }
+    }
+    return false;
+
+    // .where("date",isEqualTo: date.millisecondsSinceEpoch)
+    //     .snapshots();
+  }
+
   static Future<void> updateMovie(MovieModel movie) {
     return getMoviesCollection().doc(movie.id as String).update(movie.toJson());
   }
