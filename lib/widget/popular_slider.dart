@@ -54,7 +54,7 @@ class PopularSlider extends StatelessWidget {
                                 "${Constant.imagePath}${results.results?[index].posterPath}"))),
                     Container(
                       decoration: BoxDecoration(
-                          color: Color.fromRGBO(43, 45, 48, 0.7),
+                          color: const Color.fromRGBO(43, 45, 48, 0.7),
                           borderRadius: BorderRadius.circular(8)),
                       width: 40,
                       height: 40,

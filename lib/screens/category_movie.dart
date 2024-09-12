@@ -2,8 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:movies_2/screens/movie_details.dart';
 
 import '../API_model/api_widget_response.dart';
-import '../API_model/category.dart';
 import '../api_manager.dart';
+import '../firebase_model/firebase_functions.dart';
+import '../firebase_model/movie_model.dart';
 import '../utils/constant.dart';
 
 class CategoryMovie extends StatefulWidget {
@@ -20,15 +21,13 @@ class CategoryMovie extends StatefulWidget {
 }
 
 class _CategoryMovieState extends State<CategoryMovie> {
-  Genres? genres;
   late Future<ApiWidgetResponse> category; // مستقبل الفئة
   ApiWidgetResponse? categoryResult;
 
   @override
   void initState() {
     super.initState();
-    category = ApiManager().getCategoryListMovie(widget.categoryID)
-        as Future<ApiWidgetResponse>; // استدعاء API لجلب الفئات
+    category = ApiManager().getCategoryListMovie(widget.categoryID);
   }
 
   @override
@@ -76,27 +75,22 @@ class _CategoryMovieState extends State<CategoryMovie> {
                 } else if (snapshot.hasData) {
                   categoryResult = snapshot.data;
 
-                  // التحقق من وجود بيانات
                   if (categoryResult?.results == null ||
                       categoryResult!.results!.isEmpty) {
                     return const Center(child: Text("No Movies found"));
                   }
 
-                  // عرض البيانات باستخدام GridView.builder
                   return Expanded(
                     child: GridView.builder(
                       gridDelegate:
                           const SliverGridDelegateWithFixedCrossAxisCount(
                         crossAxisCount: 2,
-                        // عدد الأعمدة
                         childAspectRatio: 0.6,
-                        // نسبة العرض إلى الارتفاع للعناصر
                         mainAxisSpacing: 10,
                         crossAxisSpacing: 25,
                       ),
                       padding: const EdgeInsets.all(10),
                       itemCount: categoryResult?.results?.length ?? 0,
-                      // التحقق من null
                       itemBuilder: (context, index) {
                         var movie = categoryResult?.results?[index];
 
@@ -113,19 +107,51 @@ class _CategoryMovieState extends State<CategoryMovie> {
                           },
                           child: Column(
                             children: [
-                              ClipRRect(
-                                borderRadius: BorderRadius.circular(15),
-                                child: SizedBox(
-                                  height: 225,
-                                  width: 185,
-                                  child: movie?.backdropPath == null
-                                      ? Image.asset("assets/image/movies.png")
-                                      : Image.network(
-                                          filterQuality: FilterQuality.high,
-                                          fit: BoxFit.cover,
-                                          "${Constant.imagePath}${movie?.posterPath}",
-                                        ),
-                                ),
+                              Stack(
+                                children: [
+                                  ClipRRect(
+                                    borderRadius: BorderRadius.circular(15),
+                                    child: SizedBox(
+                                      height: 225,
+                                      width: 185,
+                                      child: movie?.backdropPath == null
+                                          ? Image.asset(
+                                              "assets/image/movies.png")
+                                          : Image.network(
+                                              filterQuality: FilterQuality.high,
+                                              fit: BoxFit.cover,
+                                              "${Constant.imagePath}${movie?.posterPath}",
+                                            ),
+                                    ),
+                                  ),
+                                  Container(
+                                    decoration: BoxDecoration(
+                                        color: const Color.fromRGBO(
+                                            43, 45, 48, 0.7),
+                                        borderRadius: BorderRadius.circular(5)),
+                                    width: 38,
+                                    height: 38,
+                                    child: IconButton(
+                                      onPressed: () {
+                                        MovieModel movies = MovieModel(
+                                          title: "${movie?.originalTitle}",
+                                          description: "${movie?.overview}",
+                                          date: "${movie?.releaseDate}",
+                                          image: "${movie?.posterPath}",
+                                          id: movie?.id as int,
+                                        );
+                                        FirebaseFunctions.addMovie(movies);
+                                        movies.isDone = true;
+                                        FirebaseFunctions.updateMovie(movies);
+                                      },
+                                      icon: const Icon(
+                                        Icons.add,
+                                        size: 20,
+                                        color: Colors.white,
+                                      ),
+                                    ),
+                                  ),
+                                ],
                               ),
                               const SizedBox(height: 10),
                               Text(

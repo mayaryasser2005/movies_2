@@ -23,12 +23,11 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
       theme: ThemeData.dark().copyWith(
           scaffoldBackgroundColor: Colors.black,
-          useMaterial3: true
       ),
       routes: {
-        Splash.routeNamed:(_) => Splash(),
-        Home.routeNamed: (_) => Home(),
-        Search.routeNamed: (_) => Search()
+        Splash.routeNamed: (_) => const Splash(),
+        Home.routeNamed: (_) => const Home(),
+        Search.routeNamed: (_) => const Search()
       },
       initialRoute: Splash.routeNamed,
     );

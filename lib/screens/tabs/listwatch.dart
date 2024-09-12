@@ -8,7 +8,7 @@ import '../movie_details.dart';
 class ListWatch extends StatefulWidget {
   static const String routeNamed = "ListWatch";
 
-  ListWatch({super.key});
+  const ListWatch({super.key});
 
   @override
   State<ListWatch> createState() => _ListWatchState();
@@ -49,11 +49,10 @@ class _ListWatchState extends State<ListWatch> {
                   // التأكد من الوصول إلى 'results' في 'PopularResponse'
                   return Expanded(
                     child: ListView.separated(
-                      separatorBuilder: (context, index) => SizedBox(
+                      separatorBuilder: (context, index) => const SizedBox(
                         height: 10,
                       ),
                       itemCount: movies.length,
-                      // Check if results are null
                       itemBuilder: (context, index) {
                         return InkWell(
                           onTap: () {
@@ -61,20 +60,19 @@ class _ListWatchState extends State<ListWatch> {
                               context,
                               MaterialPageRoute(
                                 builder: (context) => MovieDetails(
-                                  movieID:
-                                      movies[index].id ?? 0, // Ensure valid ID
+                                  movieID: movies[index].id, // Ensure valid ID
                                 ),
                               ),
                             );
                           },
                           child: Slidable(
                             startActionPane: ActionPane(
-                              motion: DrawerMotion(),
+                              motion: const DrawerMotion(),
                               extentRatio: 0.3,
                               children: [
                                 SlidableAction(
                                   onPressed: (context) {
-                                    // FirebaseFunctions.deleteTask(movieModel.id as int );
+                                    // FirebaseFunctions.deleteTask(movieModel.id );
                                   },
                                   label: "Delete",
                                   icon: Icons.delete,
@@ -107,10 +105,11 @@ class _ListWatchState extends State<ListWatch> {
                                       ),
                                     ),
                                     Container(
-                                      margin: EdgeInsets.only(left: 8, top: 8),
+                                      margin: const EdgeInsets.only(
+                                          left: 8, top: 8),
                                       decoration: BoxDecoration(
-                                          color:
-                                              Color.fromRGBO(43, 45, 48, 0.7),
+                                          color: const Color.fromRGBO(
+                                              43, 45, 48, 0.7),
                                           borderRadius:
                                               BorderRadius.circular(5)),
                                       width: 40,

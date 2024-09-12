@@ -16,7 +16,7 @@ class _HomeState extends State<Home> {
   int sellectedTabIndex = 0;
   @override
   Widget build(BuildContext context) {
-    List<Widget> tabs = [HomeTab(), Search(), Browse(), ListWatch()];
+    List<Widget> tabs = const [HomeTab(), Search(), Browse(), ListWatch()];
     return Scaffold(
       bottomNavigationBar: Theme(
         data: ThemeData(canvasColor: AppColors.primary),
@@ -28,7 +28,6 @@ class _HomeState extends State<Home> {
           },
           selectedItemColor: AppColors.secondly,
           showUnselectedLabels: true,
-          // backgroundColor: AppColors.primary,
           items: const [
             BottomNavigationBarItem(icon: Icon(Icons.home), label: "Home"),
               BottomNavigationBarItem(
@@ -39,8 +38,8 @@ class _HomeState extends State<Home> {
               BottomNavigationBarItem(
                 icon: Icon(Icons.movie_creation_rounded), label: "Browse"),
             BottomNavigationBarItem(
-                icon: Icon(Icons.movie_creation_rounded), label: "ListWatch"),
-          ],
+                  icon: Icon(Icons.book_outlined), label: "ListWatch"),
+            ],
         ),
       ),
       body: tabs[sellectedTabIndex]

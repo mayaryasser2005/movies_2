@@ -7,7 +7,7 @@ import '../screens/movie_details.dart';
 import '../utils/constant.dart';
 
 class NewReleasesSlider extends StatelessWidget {
-  NewReleasesSlider({super.key, required this.results});
+  const NewReleasesSlider({super.key, required this.results});
 
   final ApiWidgetResponse results;
   @override

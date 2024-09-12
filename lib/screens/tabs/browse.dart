@@ -19,7 +19,7 @@ class _BrowseState extends State<Browse> {
   @override
   void initState() {
     super.initState();
-    category = ApiManager().getCategoryMovie() as Future<CategoriesResponse>;
+    category = ApiManager().getCategoryMovie();
   }
 
   @override

@@ -58,8 +58,7 @@ class ApiManager {
   }
 
   Future<MovieDitalesResponse> getMovieDetails(num movieId) async {
-    Uri url = Uri.https(
-        Constant.BaseURL, "/3/movie/${movieId}", {"language": "en_US"});
+    Uri url = Uri.https(Constant.BaseURL, "/3/movie/$movieId", {"language": "en_US"});
     try {
       var response = await http.get(url, headers: headers);
       var json = jsonDecode(response.body);
@@ -71,14 +70,14 @@ class ApiManager {
     return MovieDitalesResponse();
   }
 
-  Future<ApiWidgetResponse> getSimilarMovies(num samemovieID) async {
-    print("70-getSimilarMovies ${samemovieID}");
-    Uri url = Uri.https(Constant.BaseURL, "/3/movie/$samemovieID/similar",
+  Future<ApiWidgetResponse> getSimilarMovies(num sameMovieID) async {
+    print("70-getSimilarMovies $sameMovieID");
+    Uri url = Uri.https(Constant.BaseURL, "/3/movie/$sameMovieID/similar",
         {"language": "en_US"});
     print("70: ${url.toString()}");
     var response = await http.get(url, headers: headers);
     var json = jsonDecode(response.body);
-    print("83- json: ${json} ");
+    print("83- json: $json ");
     ApiWidgetResponse similar = ApiWidgetResponse.fromJson(json);
     return similar;
   }
@@ -99,7 +98,7 @@ class ApiManager {
     });
     try {
       var response = await http.get(url, headers: headers);
-      var json = jsonDecode(response.body); //sucess //success
+      var json = jsonDecode(response.body); //success //success
       ApiWidgetResponse results =
           ApiWidgetResponse.fromJson(json); //fail??? //success
       print(results); //fail???? //success?? HOW ?!?!?!

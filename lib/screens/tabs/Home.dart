@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:movies_2/API_model/api_widget_response.dart';
 import 'package:movies_2/api_manager.dart';
-import 'package:movies_2/firebase_model/movie_model.dart';
 import 'package:movies_2/screens/tabs/search.dart';
 
 import '../../widget/New_Releases.dart';
@@ -19,20 +18,19 @@ class HomeTab extends StatefulWidget {
 
 class _HomeTabState extends State<HomeTab> {
   late Future<ApiWidgetResponse> popular;
-  late Future<ApiWidgetResponse> NewReleases;
-  late Future<ApiWidgetResponse> Recomended;
+  late Future<ApiWidgetResponse> newReleases;
+  late Future<ApiWidgetResponse> recomended;
   @override
   void initState() {
     super.initState();
-    popular = ApiManager().getPopular() as Future<
-        ApiWidgetResponse>; // هنا يجب أن تتأكد أن الدالة تعيد 'PopularResponse'
-    NewReleases = ApiManager().getRecent() as Future<ApiWidgetResponse>;
-    Recomended = ApiManager().getRecomended() as Future<ApiWidgetResponse>;
+    popular = ApiManager()
+        .getPopular(); // هنا يجب أن تتأكد أن الدالة تعيد 'PopularResponse'
+    newReleases = ApiManager().getRecent();
+    recomended = ApiManager().getRecomended();
   }
 
   @override
   Widget build(BuildContext context) {
-    MovieModel movieModel;
     return Scaffold(
       appBar: AppBar(
         title: const Text(
@@ -81,9 +79,8 @@ class _HomeTabState extends State<HomeTab> {
               ),
               const SizedBox(height: 20),
               FutureBuilder<ApiWidgetResponse>(
-                future: NewReleases,
+                future: newReleases,
                 builder: (context, snapshot) {
-                  MovieModel? movieModel;
                   if (snapshot.hasError) {
                     return Center(child: Text(snapshot.error.toString()));
                   } else if (snapshot.hasData) {
@@ -106,7 +103,7 @@ class _HomeTabState extends State<HomeTab> {
               ),
               const SizedBox(height: 20),
               FutureBuilder<ApiWidgetResponse>(
-                future: Recomended,
+                future: recomended,
                 builder: (context, snapshot) {
                   if (snapshot.hasError) {
                     return Center(child: Text(snapshot.error.toString()));

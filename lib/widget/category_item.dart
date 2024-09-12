@@ -75,7 +75,7 @@ class _CategoryItemState extends State<CategoryItem> {
                       ClipRRect(
                         borderRadius: BorderRadius.circular(10),
                         child: Image.asset(
-                          "assets/image/${genre.id}.jpg", // استخدام genre.id
+                          "assets/image/${genre.id}.jpg",
                           height: 110,
                           width: 190,
                           fit: BoxFit.cover,
