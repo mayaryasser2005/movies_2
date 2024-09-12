@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:movies_2/widget/New_Releases.dart';
 
 import '../API_model/api_widget_response.dart';
 import '../API_model/movie_details.dart';
@@ -7,7 +8,6 @@ import '../api_manager.dart';
 import '../firebase_model/firebase_functions.dart';
 import '../firebase_model/movie_model.dart';
 import '../utils/constant.dart';
-import '../widget/similar_slider.dart';
 
 class MovieDetails extends StatefulWidget {
   final int movieID;
@@ -35,30 +35,29 @@ class _MovieDetailsState extends State<MovieDetails> {
     newReleases = ApiManager().getRecent();
   }
 
-  fetchInitialData() async {
-    movieDetails = apiManager.getMovieDetails(widget.movieID);
-    results = await movieDetails;
-
-    // if (results.belongsToCollection != null) {
-    //
-    // } else {
-    //   sameMovies = Future.value(SimilarMovieResponse(
-    //       results: []));
-    // }
-
-    sameMovies =
-        apiManager.getSimilarMovies(results.belongsToCollection!.id as num);
-    setState(() {});
-  }
-
-  // fetchInitialData() {
+  // fetchInitialData() async {
+  //   movieDetails = apiManager.getMovieDetails(widget.movieID);
+  //   results = await movieDetails;
   //
-  //   // for(int i = 0;i < results!.belongsToCollection.;i++){
-  //     sameMovies = apiManager.getSimilarMovies(results?.belongsToCollection!.id as num);
+  //   // if (results.belongsToCollection != null) {
+  //   //
+  //   // } else {
+  //   //   sameMovies = Future.value(SimilarMovieResponse(
+  //   //       results: []));
   //   // }
   //
-  //   movieDetails = apiManager.getMovieDetails(widget.movieID);
+  //   sameMovies =
+  //       apiManager.getSimilarMovies(results.belongsToCollection!.id as num);
+  //   setState(() {});
   // }
+
+  fetchInitialData() {
+    // // for(int i = 0;i < results!.belongsToCollection.;i++){
+    //   sameMovies = apiManager.getSimilarMovies(results?.belongsToCollection!.id as num);
+    // // }
+
+    movieDetails = apiManager.getMovieDetails(widget.movieID);
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -259,15 +258,18 @@ class _MovieDetailsState extends State<MovieDetails> {
                 ),
               ],
             ),
+
             FutureBuilder<ApiWidgetResponse>(
-              future: sameMovies,
+              future: newReleases,
               builder: (context, snapshot) {
                 if (snapshot.hasError) {
                   return Center(child: Text(snapshot.error.toString()));
                 } else if (snapshot.hasData) {
-                  // print("snapshot.data.results: ${snapshot.data?}");
+                  // التأكد من الوصول إلى 'results' في 'PopularResponse'
 
-                  return SimilarSlider(similarMovieResponse: snapshot.data!);
+                  return NewReleasesSlider(
+                    results: snapshot.data as ApiWidgetResponse,
+                  );
                 } else {
                   return const Center(
                       child: CircularProgressIndicator(
@@ -276,6 +278,24 @@ class _MovieDetailsState extends State<MovieDetails> {
                 }
               },
             ),
+
+            // FutureBuilder<ApiWidgetResponse>(
+            //   future: sameMovies,
+            //   builder: (context, snapshot) {
+            //     if (snapshot.hasError) {
+            //       return Center(child: Text(snapshot.error.toString()));
+            //     } else if (snapshot.hasData) {
+            //       // print("snapshot.data.results: ${snapshot.data?}");
+            //
+            //       return SimilarSlider(similarMovieResponse: snapshot.data!);
+            //     } else {
+            //       return const Center(
+            //           child: CircularProgressIndicator(
+            //         color: Colors.amber,
+            //       ));
+            //     }
+            //   },
+            // ),
           ],
         ),
       ),
