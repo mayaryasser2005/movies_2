@@ -58,7 +58,8 @@ class ApiManager {
   }
 
   Future<MovieDitalesResponse> getMovieDetails(num movieId) async {
-    Uri url = Uri.https(Constant.BaseURL, "/3/movie/$movieId", {"language": "en_US"});
+    Uri url =
+        Uri.https(Constant.BaseURL, "/3/movie/$movieId", {"language": "en_US"});
     try {
       var response = await http.get(url, headers: headers);
       var json = jsonDecode(response.body);

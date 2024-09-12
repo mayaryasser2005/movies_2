@@ -19,7 +19,7 @@ class RecomendedSlider extends StatelessWidget {
           scrollDirection: Axis.horizontal,
           physics: const BouncingScrollPhysics(),
           itemCount: results.results?.length,
-          itemBuilder: (context ,index){
+          itemBuilder: (context, index) {
             var movie = results.results?[index];
             return Padding(
               padding: const EdgeInsets.all(8.0),

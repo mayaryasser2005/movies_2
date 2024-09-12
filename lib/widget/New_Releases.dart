@@ -19,7 +19,7 @@ class NewReleasesSlider extends StatelessWidget {
           scrollDirection: Axis.horizontal,
           physics: const BouncingScrollPhysics(),
           itemCount: results.results?.length,
-          itemBuilder: (context ,index){
+          itemBuilder: (context, index) {
             var movie = results.results?[index];
             return Padding(
               padding: const EdgeInsets.all(8.0),
@@ -44,10 +44,7 @@ class NewReleasesSlider extends StatelessWidget {
                             child: Image.network(
                                 filterQuality: FilterQuality.high,
                                 fit: BoxFit.cover,
-                                "${Constant.imagePath}${results.results?[index]
-                                    .posterPath}")
-                        )
-                    ),
+                                "${Constant.imagePath}${results.results?[index].posterPath}"))),
                     // widget.movieModel.isDone ?
                     //     Icon(Icons.done, color: Colors.amber,)
                     //     :

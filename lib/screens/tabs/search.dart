@@ -48,7 +48,7 @@ class _SearchState extends State<Search> {
           children: [
             Padding(
               padding: const EdgeInsets.only(
-                  top: 25.0, left: 10, right: 10, bottom: 10),
+                  top: 25, left: 10, right: 10, bottom: 10),
               child: CupertinoSearchTextField(
                 borderRadius: BorderRadius.circular(20),
                 padding: const EdgeInsets.all(15),
@@ -119,12 +119,14 @@ class _SearchState extends State<Search> {
                                     ),
                                   ),
                                   Container(
+                                    margin:
+                                        const EdgeInsets.only(left: 8, top: 8),
                                     decoration: BoxDecoration(
                                         color: const Color.fromRGBO(
                                             43, 45, 48, 0.7),
-                                        borderRadius: BorderRadius.circular(5)),
-                                    width: 38,
-                                    height: 38,
+                                        borderRadius: BorderRadius.circular(9)),
+                                    width: 40,
+                                    height: 40,
                                     child: IconButton(
                                       onPressed: () {
                                         MovieModel movies = MovieModel(

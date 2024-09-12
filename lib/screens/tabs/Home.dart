@@ -33,9 +33,14 @@ class _HomeTabState extends State<HomeTab> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
+        backgroundColor: Colors.transparent,
         title: const Text(
           "Movies",
-          style: TextStyle(fontWeight: FontWeight.bold, color: Colors.amber),
+          style: TextStyle(
+            fontSize: 30,
+            color: Colors.amber,
+            fontWeight: FontWeight.bold,
+          ),
         ),
         actions: [
           IconButton(

@@ -71,7 +71,7 @@ class PopularSlider extends StatelessWidget {
                           movie.isDone = true;
                           FirebaseFunctions.updateMovie(movie);
                         },
-                        icon: Icon(
+                        icon: const Icon(
                           Icons.add,
                           size: 20,
                           color: Colors.white,
@@ -83,7 +83,7 @@ class PopularSlider extends StatelessWidget {
               );
             },
           ),
-      )
+        )
       ],
     );
   }

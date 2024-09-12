@@ -36,8 +36,8 @@ class _HomeState extends State<Home> {
                   ),
                   label: "Search"),
               BottomNavigationBarItem(
-                icon: Icon(Icons.movie_creation_rounded), label: "Browse"),
-            BottomNavigationBarItem(
+                  icon: Icon(Icons.movie_creation_rounded), label: "Browse"),
+              BottomNavigationBarItem(
                   icon: Icon(Icons.book_outlined), label: "ListWatch"),
             ],
         ),

@@ -34,6 +34,7 @@ class _CategoryMovieState extends State<CategoryMovie> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
+        // backgroundColor: Colors.transparent,
         title: const Text(
           "Movie Category", // استخدام null-aware operator
           style: TextStyle(fontSize: 25, color: Colors.amber),
@@ -128,9 +129,10 @@ class _CategoryMovieState extends State<CategoryMovie> {
                                     decoration: BoxDecoration(
                                         color: const Color.fromRGBO(
                                             43, 45, 48, 0.7),
-                                        borderRadius: BorderRadius.circular(5)),
-                                    width: 38,
-                                    height: 38,
+                                        borderRadius:
+                                            BorderRadius.circular(12)),
+                                    width: 40,
+                                    height: 40,
                                     child: IconButton(
                                       onPressed: () {
                                         MovieModel movies = MovieModel(
@@ -159,9 +161,7 @@ class _CategoryMovieState extends State<CategoryMovie> {
                                 maxLines: 2,
                                 overflow: TextOverflow.ellipsis,
                                 style: const TextStyle(
-                                    fontSize: 20,
-                                    // fontWeight: FontWeight.bold,
-                                    color: Colors.amber),
+                                    fontSize: 20, color: Colors.amber),
                                 textAlign: TextAlign.center,
                               ),
                             ],

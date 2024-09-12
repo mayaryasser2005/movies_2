@@ -10,6 +10,7 @@ class Movie {
   String? posterPath;
   String? releaseDate;
   String? title;
+
   bool? video;
   double? voteAverage;
   int? voteCount;
